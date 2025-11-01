@@ -7,6 +7,7 @@ export interface AmberPrice {
   large: string;
   extraLarge: string;
   notes: string;
+  imageUrl?: string;
 }
 
 export interface Note {

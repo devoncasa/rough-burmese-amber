@@ -1,6 +1,14 @@
 import React, { useState, useMemo } from 'react';
 import type { LanguageContent } from '../types';
 
+// Add type definition for the jsPDF library loaded from CDN
+declare global {
+  interface Window {
+    jspdf: any;
+  }
+}
+
+
 type SizeKey = 'small' | 'medium' | 'large' | 'extraLarge';
 
 interface EstimationRow {
@@ -50,7 +58,141 @@ const PriceEstimator: React.FC<PriceEstimatorProps> = ({ content }) => {
   };
 
   const handleDownloadPdf = () => {
-    window.print();
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF();
+
+    // 1. Get current date and time for file name and header
+    const now = new Date();
+    const formattedDate = `${now.getFullYear()}-${(now.getMonth() + 1).toString().padStart(2, '0')}-${now.getDate().toString().padStart(2, '0')}`;
+    const formattedTime = `${now.getHours().toString().padStart(2, '0')}-${now.getMinutes().toString().padStart(2, '0')}-${now.getSeconds().toString().padStart(2, '0')}`;
+    const dateTimeString = `${formattedDate} at ${formattedTime.replace(/-/g, ':')}`;
+    const fileName = `RoughBurmeseAmber_Estimate_${formattedDate}_${formattedTime}.pdf`;
+
+    // 2. Add Logo and Header
+    const logoUrl = 'https://raw.githubusercontent.com/devoncasa/VickyLuxGems-Assets/main/vicky-burmese-amber-logo.jpg';
+    
+    const addHeader = (docInstance: any): Promise<void> => {
+      return new Promise((resolve) => {
+        const img = new Image();
+        img.crossOrigin = 'Anonymous';
+        img.onload = function() {
+          const canvas = document.createElement('canvas');
+          canvas.width = (this as HTMLImageElement).naturalWidth;
+          canvas.height = (this as HTMLImageElement).naturalHeight;
+          const ctx = canvas.getContext('2d');
+          if (ctx) {
+            ctx.drawImage(this as HTMLImageElement, 0, 0);
+            const dataURL = canvas.toDataURL('image/jpeg');
+            docInstance.addImage(dataURL, 'JPEG', 15, 12, 25, 25);
+          }
+          
+          docInstance.setFontSize(22);
+          docInstance.setFont('helvetica', 'bold');
+          docInstance.text('Price Estimation Summary', 50, 22);
+          docInstance.setFontSize(10);
+          docInstance.setFont('helvetica', 'normal');
+          docInstance.text(`Vicky Burmese Amber & Gems Co., Ltd.`, 50, 29);
+          docInstance.text(`Date of Estimate: ${dateTimeString}`, 50, 35);
+          resolve();
+        };
+        img.onerror = () => {
+          docInstance.setFontSize(22);
+          docInstance.setFont('helvetica', 'bold');
+          docInstance.text('Price Estimation Summary', 15, 22);
+          docInstance.setFontSize(10);
+          docInstance.setFont('helvetica', 'normal');
+          docInstance.text(`Vicky Burmese Amber & Gems Co., Ltd.`, 15, 29);
+          docInstance.text(`Date of Estimate: ${dateTimeString}`, 15, 35);
+          resolve();
+        };
+        img.src = logoUrl;
+      });
+    };
+    
+    // 3. Prepare table data
+    const head = [[
+      content.estimatorHeaders.item,
+      content.estimatorHeaders.inclusion,
+      content.estimatorHeaders.size,
+      content.estimatorHeaders.pricePerGram,
+      content.estimatorHeaders.quantity,
+      content.estimatorHeaders.total
+    ]];
+    
+    const validRows = calculations.calculatedRows.filter(row => row.selectedTypeColor && parseFloat(String(row.quantity)) > 0);
+    const body = validRows.map(row => {
+        const sizeLabel = sizeOptions.find(opt => opt.key === row.selectedSize)?.label || '';
+        return [
+          row.selectedTypeColor,
+          row.inclusion,
+          sizeLabel,
+          `$${row.pricePerGram.toFixed(2)}`,
+          `${row.quantity} g`,
+          `$${row.total.toFixed(2)}`
+        ];
+    });
+
+    addHeader(doc).then(() => {
+        // 4. Create the table
+        doc.autoTable({
+            head: head,
+            body: body,
+            startY: 48,
+            theme: 'grid',
+            headStyles: { fillColor: '#78350f', textColor: '#ffffff', fontStyle: 'bold' },
+            alternateRowStyles: { fillColor: '#fef3c7' },
+            styles: { cellPadding: 2.5, fontSize: 9 },
+            columnStyles: {
+                0: { cellWidth: 45 },
+                3: { halign: 'center' },
+                4: { halign: 'center' },
+                5: { halign: 'right', fontStyle: 'bold' },
+            },
+        });
+
+        // 5. Add Grand Total
+        const finalY = doc.autoTable.previous.finalY;
+        doc.setFontSize(14);
+        doc.setFont('helvetica', 'bold');
+        doc.text(
+            `${content.grandTotalLabel}:`,
+            140, 
+            finalY + 15, 
+            { align: 'right' }
+        );
+         doc.text(
+            `$${calculations.grandTotal.toFixed(2)}`,
+            195, 
+            finalY + 15, 
+            { align: 'right' }
+        );
+
+        // 6. Add the important note
+        doc.setFontSize(8);
+        doc.setFont('helvetica', 'normal');
+        doc.setTextColor(100);
+        
+        const noteText = `Important Note: ${content.estimatorNote}`;
+        const splitText = doc.splitTextToSize(noteText, 180);
+        doc.text(splitText, 15, finalY + 30);
+        
+        // 7. Add footer
+        const pageCount = doc.internal.getNumberOfPages();
+        for (let i = 1; i <= pageCount; i++) {
+            doc.setPage(i);
+            doc.setFontSize(8);
+            doc.setTextColor(150);
+            doc.text(
+                'Vicky Burmese Amber & Gems Co., Ltd.', 
+                doc.internal.pageSize.width / 2, 
+                doc.internal.pageSize.height - 10, 
+                { align: 'center' }
+            );
+        }
+
+        // 8. Save the PDF
+        doc.save(fileName);
+    });
   };
   
   const sizeOptions: {key: SizeKey, label: string}[] = [

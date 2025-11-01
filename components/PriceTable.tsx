@@ -9,6 +9,7 @@ interface PriceTableProps {
 const getHeaderClasses = (key: string): string => {
   const baseThClasses = 'px-4 py-3 text-xs font-bold text-amber-100 uppercase tracking-wider';
   switch (key) {
+    case 'imageUrl':
     case 'small':
     case 'medium':
     case 'large':
@@ -24,6 +25,8 @@ const getColumnClasses = (key: string): string => {
   const baseTdClasses = 'px-4 py-4 text-sm align-top';
 
   switch (key) {
+    case 'imageUrl':
+      return `${baseTdClasses} w-28`;
     case 'typeColor':
       return `${baseTdClasses} font-semibold text-amber-900`;
     case 'description':
@@ -64,7 +67,16 @@ const PriceTable: React.FC<PriceTableProps> = ({ data, headers }) => {
             <tr key={item.typeColor} className="transition-colors duration-200 odd:bg-amber-50/50 even:bg-white hover:bg-amber-100/60">
               {headers.map((header) => (
                 <td key={header.key} className={getColumnClasses(header.key)}>
-                  {item[header.key as keyof AmberPrice]}
+                  {header.key === 'imageUrl' && item.imageUrl ? (
+                    <img
+                      src={item.imageUrl}
+                      alt={item.typeColor}
+                      className="w-20 h-20 object-cover rounded-lg shadow-md border-2 border-white mx-auto"
+                      loading="lazy"
+                    />
+                  ) : (
+                    item[header.key as keyof AmberPrice]
+                  )}
                 </td>
               ))}
             </tr>
