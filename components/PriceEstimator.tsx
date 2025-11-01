@@ -298,6 +298,12 @@ const PriceEstimator: React.FC<PriceEstimatorProps> = ({ content }) => {
         </div>
         <p>{content.estimatorNote}</p>
       </div>
+      
+      <div className="mt-4 p-4 bg-teal-50/80 border border-teal-200/90 rounded-lg text-sm text-teal-900">
+        <h3 className="font-bold">{content.estimatorRemark.title}</h3>
+        <p className="mt-1 whitespace-pre-line">{content.estimatorRemark.content}</p>
+      </div>
+
 
       <div className="mt-6 flex flex-col sm:flex-row items-center justify-between gap-4">
         <div className="flex flex-wrap gap-2">

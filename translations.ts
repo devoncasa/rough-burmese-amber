@@ -91,7 +91,11 @@ export const translations: { [key: string]: LanguageContent } = {
     grandTotalLabel: 'Grand Total',
     selectTypePlaceholder: 'Select Amber Type',
     selectSizePlaceholder: 'Select Size',
-    estimatorNote: 'Please note: All prices shown include import tax and delivery fees from Myanmar to Thailand. However, the final total price does not include delivery, customs inspection, or any local taxes and additional expenses that may apply in the destination country. Buyers are responsible for any import duties or charges incurred at their end.'
+    estimatorNote: 'Please note: All prices shown include import tax and delivery fees from Myanmar to Thailand. However, the final total price does not include delivery, customs inspection, or any local taxes and additional expenses that may apply in the destination country. Buyers are responsible for any import duties or charges incurred at their end.',
+    estimatorRemark: {
+      title: '💬 Remark',
+      content: `The total price shown does not include discounts yet.\nDiscounts depend on quantity and color/type of amber:\n\n• Common colors/types: 10–25% discount\n• Rare colors/types: 5–15% discount\n\nFinal discount rates will be confirmed after reviewing your order quantity and item selection.`
+    },
   },
   es: {
     title: 'Guía de Precios del Ámbar Birmano en Bruto',
@@ -130,6 +134,10 @@ export const translations: { [key: string]: LanguageContent } = {
     grandTotalLabel: 'Total General',
     selectTypePlaceholder: 'Seleccionar Tipo de Ámbar',
     selectSizePlaceholder: 'Seleccionar Tamaño',
-    estimatorNote: 'Atención: Todos los precios indicados incluyen el impuesto de importación y los gastos de envío desde Myanmar hasta Tailandia. Sin embargo, el precio total final no incluye los gastos de envío, inspección aduanera ni los impuestos locales u otros costos adicionales que puedan aplicarse en el país de destino. El comprador es responsable de cualquier arancel o cargo de importación que se genere en su país.'
+    estimatorNote: 'Atención: Todos los precios indicados incluyen el impuesto de importación y los gastos de envío desde Myanmar hasta Tailandia. Sin embargo, el precio total final no incluye los gastos de envío, inspección aduanera ni los impuestos locales u otros costos adicionales que puedan aplicarse en el país de destino. El comprador es responsable de cualquier arancel o cargo de importación que se genere en su país.',
+    estimatorRemark: {
+      title: '💬 Observación',
+      content: `El precio total mostrado aún no incluye descuentos.\nLos descuentos dependen de la cantidad y el color/tipo de ámbar:\n\n• Colores/tipos comunes: 10–25% de descuento\n• Colores/tipos raros: 5–15% de descuento\n\nLas tasas de descuento finales se confirmarán después de revisar la cantidad de su pedido y la selección de artículos.`
+    },
   }
 };

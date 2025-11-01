@@ -46,4 +46,5 @@ export interface LanguageContent {
   selectTypePlaceholder: string;
   selectSizePlaceholder: string;
   estimatorNote: string;
+  estimatorRemark: Note;
 }
