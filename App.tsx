@@ -183,15 +183,15 @@ const App: React.FC = () => {
   );
 
   return (
-    <div
-      className="min-h-screen text-stone-800 font-sans antialiased"
-      style={{
-        backgroundImage: `url('https://raw.githubusercontent.com/devoncasa/VickyLuxGems-Assets/main/roughamber/rough-amber-bg.webp')`,
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-        backgroundAttachment: 'fixed',
-      }}
-    >
+    <div className="min-h-screen text-stone-800 font-sans antialiased">
+      <div
+        className="fixed inset-0 z-[-1]"
+        style={{
+          backgroundImage: `url('https://raw.githubusercontent.com/devoncasa/VickyLuxGems-Assets/main/roughamber/rough-amber-bg.webp')`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+        }}
+      />
       <main className="container mx-auto px-4 py-8 md:py-12">
         <div className="flex justify-end mb-6 print:hidden" role="toolbar" aria-label="Language selection">
           <div className="flex space-x-2 rtl:space-x-reverse p-1 bg-white/60 rounded-lg border border-amber-200/50">

@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useRef } from 'react';
 import type { LanguageContent } from '../types';
 
 // Add type definition for the jsPDF library loaded from CDN
@@ -37,6 +37,27 @@ const PriceEstimator: React.FC<PriceEstimatorProps> = ({ content, language }) =>
   const [rows, setRows] = useState<EstimationRow[]>([
     { id: 1, selectedTypeColor: '', selectedSize: '', quantity: '' },
   ]);
+  
+  const itemRefs = useRef<{
+    [key: number]: { 
+      typeSelect?: HTMLSelectElement | null;
+      sizeSelect?: HTMLSelectElement | null; 
+      quantityInput?: HTMLInputElement | null;
+    };
+  }>({});
+  
+  // Helper function to focus and smoothly scroll to the next input field on mobile devices.
+  const focusAndScrollToNext = (element: HTMLElement | null | undefined) => {
+    if (element && window.innerWidth < 1024) {
+      element.focus();
+      // Timeout ensures that the focus has been set and the UI has updated before scrolling,
+      // which is particularly important on mobile devices where a virtual keyboard may appear.
+      setTimeout(() => {
+        element.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'center' });
+      }, 150);
+    }
+  };
+
 
   const amberTypes = useMemo(() => content.tableData.map(d => d.typeColor), [content.tableData]);
 
@@ -46,16 +67,30 @@ const PriceEstimator: React.FC<PriceEstimatorProps> = ({ content, language }) =>
 
   const addRow = () => {
     if (rows.length < 8) {
-      setRows([...rows, { id: Date.now(), selectedTypeColor: '', selectedSize: '', quantity: '' }]);
+      const newRowId = Date.now();
+      setRows([...rows, { id: newRowId, selectedTypeColor: '', selectedSize: '', quantity: '' }]);
+
+      // Use a timeout to wait for the next render cycle after the state update
+      setTimeout(() => {
+        const newRowElement = itemRefs.current[newRowId]?.typeSelect;
+        if (newRowElement) {
+          newRowElement.focus();
+          newRowElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+      }, 0);
     }
   };
   
   const removeRow = (id: number) => {
     setRows(rows.filter(row => row.id !== id));
+    if (itemRefs.current[id]) {
+        delete itemRefs.current[id];
+    }
   }
 
   const resetRows = () => {
     setRows([{ id: 1, selectedTypeColor: '', selectedSize: '', quantity: '' }]);
+    itemRefs.current = {};
   };
 
   const handleDownloadPdf = async () => {
@@ -317,8 +352,15 @@ const PriceEstimator: React.FC<PriceEstimatorProps> = ({ content, language }) =>
               <tr key={row.id} className="border-b border-amber-100 last:border-b-0">
                 <td className="p-2 align-top" style={{minWidth: '200px'}}>
                   <select
+                    ref={el => {
+                      if (!itemRefs.current[row.id]) itemRefs.current[row.id] = {};
+                      itemRefs.current[row.id]!.typeSelect = el;
+                    }}
                     value={row.selectedTypeColor}
-                    onChange={(e) => handleUpdateRow(row.id, 'selectedTypeColor', e.target.value)}
+                    onChange={(e) => {
+                      handleUpdateRow(row.id, 'selectedTypeColor', e.target.value);
+                      focusAndScrollToNext(itemRefs.current[row.id]?.sizeSelect);
+                    }}
                     className="w-full p-2 bg-white text-black border border-stone-300 rounded-md focus:ring-amber-500 focus:border-amber-500 text-sm"
                   >
                     <option value="">{content.selectTypePlaceholder}</option>
@@ -330,8 +372,15 @@ const PriceEstimator: React.FC<PriceEstimatorProps> = ({ content, language }) =>
                 </td>
                 <td className="p-2 align-top" style={{minWidth: '180px'}}>
                   <select
+                    ref={el => {
+                      if (!itemRefs.current[row.id]) itemRefs.current[row.id] = {};
+                      itemRefs.current[row.id]!.sizeSelect = el;
+                    }}
                     value={row.selectedSize}
-                    onChange={(e) => handleUpdateRow(row.id, 'selectedSize', e.target.value)}
+                    onChange={(e) => {
+                      handleUpdateRow(row.id, 'selectedSize', e.target.value);
+                      focusAndScrollToNext(itemRefs.current[row.id]?.quantityInput);
+                    }}
                     className="w-full p-2 bg-white text-black border border-stone-300 rounded-md focus:ring-amber-500 focus:border-amber-500 text-sm"
                     disabled={!row.selectedTypeColor}
                   >
@@ -344,6 +393,10 @@ const PriceEstimator: React.FC<PriceEstimatorProps> = ({ content, language }) =>
                 </td>
                 <td className="p-2 align-top" style={{width: '120px'}}>
                   <input
+                    ref={el => {
+                      if (!itemRefs.current[row.id]) itemRefs.current[row.id] = {};
+                      itemRefs.current[row.id]!.quantityInput = el;
+                    }}
                     type="number"
                     value={row.quantity}
                     onChange={(e) => handleUpdateRow(row.id, 'quantity', e.target.value)}
@@ -358,7 +411,7 @@ const PriceEstimator: React.FC<PriceEstimatorProps> = ({ content, language }) =>
                 </td>
                 <td className="p-2 align-top text-center">
                     {index > 0 && (
-                         <button onClick={() => removeRow(row.id)} className="text-red-500 hover:text-red-700 p-1 rounded-full">
+                         <button onClick={() => removeRow(row.id)} className="text-red-500 hover:text-red-700 p-1 rounded-full" aria-label="Remove item">
                             <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="http://www.w3.org/2000/svg" fill="currentColor"><path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" /></svg>
                         </button>
                     )}
@@ -367,6 +420,28 @@ const PriceEstimator: React.FC<PriceEstimatorProps> = ({ content, language }) =>
             ))}
           </tbody>
         </table>
+      </div>
+      
+      <div className="mt-6 flex flex-wrap gap-2">
+        <button
+          onClick={addRow}
+          disabled={rows.length >= 8}
+          className="px-4 py-2 text-sm font-semibold text-white bg-amber-700 rounded-md hover:bg-amber-800 disabled:bg-stone-400 disabled:cursor-not-allowed transition-colors"
+        >
+          {content.addRowButton}
+        </button>
+        <button
+          onClick={resetRows}
+          className="px-4 py-2 text-sm font-semibold text-amber-800 bg-amber-100 rounded-md hover:bg-amber-200/80 transition-colors"
+        >
+          {content.resetButton}
+        </button>
+        <button
+          onClick={handleDownloadPdf}
+          className="px-4 py-2 text-sm font-semibold text-amber-800 bg-amber-100 rounded-md hover:bg-amber-200/80 transition-colors"
+        >
+          {content.downloadButton}
+        </button>
       </div>
 
       <div className="mt-6 p-3 bg-stone-100/70 border border-stone-200 rounded-lg text-xs text-stone-600 flex items-start gap-2">
@@ -384,28 +459,7 @@ const PriceEstimator: React.FC<PriceEstimatorProps> = ({ content, language }) =>
       </div>
 
 
-      <div className="mt-6 flex flex-col sm:flex-row items-center justify-between gap-4">
-        <div className="flex flex-wrap gap-2">
-          <button
-            onClick={addRow}
-            disabled={rows.length >= 8}
-            className="px-4 py-2 text-sm font-semibold text-white bg-amber-700 rounded-md hover:bg-amber-800 disabled:bg-stone-400 disabled:cursor-not-allowed transition-colors"
-          >
-            {content.addRowButton}
-          </button>
-          <button
-            onClick={resetRows}
-            className="px-4 py-2 text-sm font-semibold text-amber-800 bg-amber-100 rounded-md hover:bg-amber-200/80 transition-colors"
-          >
-            {content.resetButton}
-          </button>
-           <button
-            onClick={handleDownloadPdf}
-            className="px-4 py-2 text-sm font-semibold text-amber-800 bg-amber-100 rounded-md hover:bg-amber-200/80 transition-colors"
-          >
-            {content.downloadButton}
-          </button>
-        </div>
+      <div className="mt-8 flex justify-end">
         <div className="text-right rtl:text-left bg-amber-50/70 p-4 rounded-lg">
           <span className="text-md font-semibold text-stone-600">{content.grandTotalLabel}:</span>
           <span className="text-2xl font-bold text-amber-900 ml-0.5 rtl:ml-0 rtl:mr-0.5">
