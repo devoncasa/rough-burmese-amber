@@ -46,7 +46,7 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({ images, isMainGallery = fal
 
 
   const ThumbnailLayout = isMainGallery ? (
-    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
+    <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 gap-2 sm:gap-4">
       {images.map((src, index) => (
         <button
           key={index}
@@ -92,7 +92,7 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({ images, isMainGallery = fal
 
       {selectedImageIndex !== null && (
         <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm transition-opacity duration-300 animate-fadeIn"
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm transition-opacity duration-300 animate-fadeIn cursor-zoom-out"
           onClick={() => setSelectedImageIndex(null)}
           role="dialog"
           aria-modal="true"
@@ -103,10 +103,12 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({ images, isMainGallery = fal
               e.stopPropagation();
               setSelectedImageIndex(null);
             }}
-            className="absolute top-4 right-4 text-white text-4xl hover:text-amber-300 transition-colors z-50"
+            className="absolute top-2 right-2 sm:top-4 sm:right-4 z-50 p-2 bg-black/30 rounded-full text-white hover:bg-black/50 focus:outline-none focus:ring-2 focus:ring-white/70 transition-colors"
             aria-label="Close image viewer"
           >
-            &times;
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+            </svg>
           </button>
 
           {/* Previous Button */}
@@ -120,7 +122,7 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({ images, isMainGallery = fal
             </svg>
           </button>
 
-          <div className="relative p-4" onClick={(e) => e.stopPropagation()}>
+          <div className="relative p-2 sm:p-4 cursor-default" onClick={(e) => e.stopPropagation()}>
             <img
               src={images[selectedImageIndex]}
               alt={`Enlarged view of Burmese amber specimen ${selectedImageIndex + 1}`}

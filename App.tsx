@@ -185,12 +185,8 @@ const App: React.FC = () => {
   return (
     <div className="min-h-screen text-stone-800 font-sans antialiased">
       <div
+        id="app-background"
         className="fixed inset-0 z-[-1]"
-        style={{
-          backgroundImage: `url('https://raw.githubusercontent.com/devoncasa/VickyLuxGems-Assets/main/roughamber/rough-amber-bg.webp')`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-        }}
       />
       <main className="container mx-auto px-4 py-8 md:py-12">
         <div className="flex justify-end mb-6 print:hidden" role="toolbar" aria-label="Language selection">
