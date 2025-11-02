@@ -22,13 +22,26 @@ export interface TableHeader {
 
 export interface LanguageContent {
   title: string;
+  byline: string;
   subtitle: string;
+  introduction: string;
+  metaTitle: string;
+  metaDescription: string;
+  metaKeywords: string;
+  tabLabels: {
+    overview: string;
+    pricing: string;
+    notes: string;
+    gallery: string;
+  };
   tableHeaders: TableHeader[];
   tableData: AmberPrice[];
   notesTitle: string;
   notesData: Note[];
   specialNote: Note;
-  footerText: string;
+  fullPriceListTitle: string;
+  priceListInfo: Note;
+  companyName: string;
   // Properties for the Price Estimator
   estimatorTitle: string;
   estimatorHeaders: {
@@ -47,4 +60,7 @@ export interface LanguageContent {
   selectSizePlaceholder: string;
   estimatorNote: string;
   estimatorRemark: Note;
+  // PDF specific translations
+  pdfTitle: string;
+  pdfDate: string;
 }

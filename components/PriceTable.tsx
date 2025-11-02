@@ -16,7 +16,7 @@ const getHeaderClasses = (key: string): string => {
     case 'extraLarge':
       return `${baseThClasses} text-center`;
     default:
-      return `${baseThClasses} text-left`;
+      return `${baseThClasses} text-left rtl:text-right`;
   }
 };
 
@@ -68,12 +68,14 @@ const PriceTable: React.FC<PriceTableProps> = ({ data, headers }) => {
               {headers.map((header) => (
                 <td key={header.key} className={getColumnClasses(header.key)}>
                   {header.key === 'imageUrl' && item.imageUrl ? (
-                    <img
-                      src={item.imageUrl}
-                      alt={item.typeColor}
-                      className="w-20 h-20 object-cover rounded-lg shadow-md border-2 border-white mx-auto"
-                      loading="lazy"
-                    />
+                    <div className="w-24 h-24 mx-auto bg-stone-100/50 rounded-lg flex items-center justify-center p-1 shadow-md border border-amber-100">
+                      <img
+                        src={item.imageUrl}
+                        alt={item.typeColor}
+                        className="max-w-full max-h-full object-contain"
+                        loading="lazy"
+                      />
+                    </div>
                   ) : (
                     item[header.key as keyof AmberPrice]
                   )}

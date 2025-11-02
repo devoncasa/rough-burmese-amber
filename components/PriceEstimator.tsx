@@ -20,6 +20,7 @@ interface EstimationRow {
 
 interface PriceEstimatorProps {
   content: LanguageContent;
+  language: 'en' | 'es' | 'ar' | 'hi' | 'th';
 }
 
 // Helper to parse price ranges like "1.0-1.5" into an average number
@@ -32,7 +33,7 @@ const parsePrice = (priceRange: string): number => {
 };
 
 
-const PriceEstimator: React.FC<PriceEstimatorProps> = ({ content }) => {
+const PriceEstimator: React.FC<PriceEstimatorProps> = ({ content, language }) => {
   const [rows, setRows] = useState<EstimationRow[]>([
     { id: 1, selectedTypeColor: '', selectedSize: '', quantity: '' },
   ]);
@@ -57,142 +58,220 @@ const PriceEstimator: React.FC<PriceEstimatorProps> = ({ content }) => {
     setRows([{ id: 1, selectedTypeColor: '', selectedSize: '', quantity: '' }]);
   };
 
-  const handleDownloadPdf = () => {
-    const { jsPDF } = window.jspdf;
-    const doc = new jsPDF();
+  const handleDownloadPdf = async () => {
+    try {
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF();
+      
+      const isRtl = language === 'ar';
+      let pdfFont = 'helvetica';
 
-    // 1. Get current date and time for file name and header
-    const now = new Date();
-    const formattedDate = `${now.getFullYear()}-${(now.getMonth() + 1).toString().padStart(2, '0')}-${now.getDate().toString().padStart(2, '0')}`;
-    const formattedTime = `${now.getHours().toString().padStart(2, '0')}-${now.getMinutes().toString().padStart(2, '0')}-${now.getSeconds().toString().padStart(2, '0')}`;
-    const dateTimeString = `${formattedDate} at ${formattedTime.replace(/-/g, ':')}`;
-    const fileName = `RoughBurmeseAmber_Estimate_${formattedDate}_${formattedTime}.pdf`;
-
-    // 2. Add Logo and Header
-    const logoUrl = 'https://raw.githubusercontent.com/devoncasa/VickyLuxGems-Assets/main/vicky-burmese-amber-logo.jpg';
-    
-    const addHeader = (docInstance: any): Promise<void> => {
-      return new Promise((resolve) => {
-        const img = new Image();
-        img.crossOrigin = 'Anonymous';
-        img.onload = function() {
-          const canvas = document.createElement('canvas');
-          canvas.width = (this as HTMLImageElement).naturalWidth;
-          canvas.height = (this as HTMLImageElement).naturalHeight;
-          const ctx = canvas.getContext('2d');
-          if (ctx) {
-            ctx.drawImage(this as HTMLImageElement, 0, 0);
-            const dataURL = canvas.toDataURL('image/jpeg');
-            docInstance.addImage(dataURL, 'JPEG', 15, 12, 25, 25);
-          }
+      const loadFont = async (fontName: string, fontUrl: string) => {
+        try {
+          const fontResponse = await fetch(fontUrl);
+          if (!fontResponse.ok) throw new Error('Font file could not be loaded');
           
-          docInstance.setFontSize(22);
-          docInstance.setFont('helvetica', 'bold');
-          docInstance.text('Price Estimation Summary', 50, 22);
-          docInstance.setFontSize(10);
-          docInstance.setFont('helvetica', 'normal');
-          docInstance.text(`Vicky Burmese Amber & Gems Co., Ltd.`, 50, 29);
-          docInstance.text(`Date of Estimate: ${dateTimeString}`, 50, 35);
-          resolve();
-        };
-        img.onerror = () => {
-          docInstance.setFontSize(22);
-          docInstance.setFont('helvetica', 'bold');
-          docInstance.text('Price Estimation Summary', 15, 22);
-          docInstance.setFontSize(10);
-          docInstance.setFont('helvetica', 'normal');
-          docInstance.text(`Vicky Burmese Amber & Gems Co., Ltd.`, 15, 29);
-          docInstance.text(`Date of Estimate: ${dateTimeString}`, 15, 35);
-          resolve();
-        };
-        img.src = logoUrl;
-      });
-    };
-    
-    // 3. Prepare table data
-    const head = [[
-      content.estimatorHeaders.item,
-      content.estimatorHeaders.inclusion,
-      content.estimatorHeaders.size,
-      content.estimatorHeaders.pricePerGram,
-      content.estimatorHeaders.quantity,
-      content.estimatorHeaders.total
-    ]];
-    
-    const validRows = calculations.calculatedRows.filter(row => row.selectedTypeColor && parseFloat(String(row.quantity)) > 0);
-    const body = validRows.map(row => {
-        const sizeLabel = sizeOptions.find(opt => opt.key === row.selectedSize)?.label || '';
-        return [
-          row.selectedTypeColor,
-          row.inclusion,
-          sizeLabel,
-          `$${row.pricePerGram.toFixed(2)}`,
-          `${row.quantity} g`,
-          `$${row.total.toFixed(2)}`
-        ];
-    });
+          const fontBuffer = await fontResponse.arrayBuffer();
+          const fontUint8Array = new Uint8Array(fontBuffer);
+          let binary = '';
+          for (let i = 0; i < fontUint8Array.byteLength; i++) {
+              binary += String.fromCharCode(fontUint8Array[i]);
+          }
+          const fontBase64 = window.btoa(binary);
 
-    addHeader(doc).then(() => {
-        // 4. Create the table
-        doc.autoTable({
-            head: head,
-            body: body,
-            startY: 48,
-            theme: 'grid',
-            headStyles: { fillColor: '#78350f', textColor: '#ffffff', fontStyle: 'bold' },
-            alternateRowStyles: { fillColor: '#fef3c7' },
-            styles: { cellPadding: 2.5, fontSize: 9 },
-            columnStyles: {
-                0: { cellWidth: 45 },
-                3: { halign: 'center' },
-                4: { halign: 'center' },
-                5: { halign: 'right', fontStyle: 'bold' },
-            },
-        });
-
-        // 5. Add Grand Total
-        const finalY = doc.autoTable.previous.finalY;
-        doc.setFontSize(14);
-        doc.setFont('helvetica', 'bold');
-        doc.text(
-            `${content.grandTotalLabel}:`,
-            140, 
-            finalY + 15, 
-            { align: 'right' }
-        );
-         doc.text(
-            `$${calculations.grandTotal.toFixed(2)}`,
-            195, 
-            finalY + 15, 
-            { align: 'right' }
-        );
-
-        // 6. Add the important note
-        doc.setFontSize(8);
-        doc.setFont('helvetica', 'normal');
-        doc.setTextColor(100);
-        
-        const noteText = `Important Note: ${content.estimatorNote}`;
-        const splitText = doc.splitTextToSize(noteText, 180);
-        doc.text(splitText, 15, finalY + 30);
-        
-        // 7. Add footer
-        const pageCount = doc.internal.getNumberOfPages();
-        for (let i = 1; i <= pageCount; i++) {
-            doc.setPage(i);
-            doc.setFontSize(8);
-            doc.setTextColor(150);
-            doc.text(
-                'Vicky Burmese Amber & Gems Co., Ltd.', 
-                doc.internal.pageSize.width / 2, 
-                doc.internal.pageSize.height - 10, 
-                { align: 'center' }
-            );
+          const vfsFileName = `${fontName}-Regular.ttf`;
+          doc.addFileToVFS(vfsFileName, fontBase64);
+          doc.addFont(vfsFileName, fontName, 'normal');
+          return fontName;
+        } catch (error) {
+          console.error(`Failed to load ${fontName} font. PDF content might not render correctly.`, error);
+          return 'helvetica'; // Fallback font
         }
+      };
 
-        // 8. Save the PDF
-        doc.save(fileName);
-    });
+      if (isRtl) {
+        pdfFont = await loadFont('Amiri', 'https://raw.githack.com/google/fonts/main/ofl/amiri/Amiri-Regular.ttf');
+      } else if (language === 'hi') {
+        pdfFont = await loadFont('NotoSansDevanagari', 'https://raw.githack.com/google/fonts/main/ofl/notosansdevanagari/static/NotoSansDevanagari-Regular.ttf');
+      } else if (language === 'th') {
+        pdfFont = await loadFont('Sarabun', 'https://raw.githack.com/google/fonts/main/ofl/sarabun/Sarabun-Regular.ttf');
+      }
+      
+      doc.setFont(pdfFont);
+
+
+      const now = new Date();
+      const formattedDate = `${now.getFullYear()}-${(now.getMonth() + 1).toString().padStart(2, '0')}-${now.getDate().toString().padStart(2, '0')}`;
+      const formattedTime = `${now.getHours().toString().padStart(2, '0')}-${now.getMinutes().toString().padStart(2, '0')}-${now.getSeconds().toString().padStart(2, '0')}`;
+      const dateTimeString = `${formattedDate} at ${formattedTime.replace(/-/g, ':')}`;
+      const fileName = `RoughBurmeseAmber_Estimate_${formattedDate}_${formattedTime}.pdf`;
+
+      const logoUrl = 'https://raw.githubusercontent.com/devoncasa/VickyLuxGems-Assets/main/vicky-burmese-amber-logo.jpg';
+      
+      const addHeader = (docInstance: any): Promise<void> => {
+        return new Promise((resolve) => {
+          const img = new Image();
+          img.crossOrigin = 'Anonymous';
+          const pageWidth = docInstance.internal.pageSize.getWidth();
+          const margin = 15;
+          const logoSize = 25;
+
+          img.onload = function() {
+            const canvas = document.createElement('canvas');
+            canvas.width = (this as HTMLImageElement).naturalWidth;
+            canvas.height = (this as HTMLImageElement).naturalHeight;
+            const ctx = canvas.getContext('2d');
+            if (ctx) {
+              ctx.drawImage(this as HTMLImageElement, 0, 0);
+              const dataURL = canvas.toDataURL('image/jpeg');
+              const logoX = isRtl ? pageWidth - margin - logoSize : margin;
+              docInstance.addImage(dataURL, 'JPEG', logoX, 12, logoSize, logoSize);
+            }
+            
+            const textX = isRtl ? pageWidth - margin - logoSize - 10 : margin + logoSize + 10;
+            const textAlign = isRtl ? 'right' : 'left';
+            
+            docInstance.setFontSize(22);
+            docInstance.setFont(pdfFont, 'bold');
+            docInstance.text(content.pdfTitle, textX, 22, { align: textAlign });
+            
+            docInstance.setFontSize(10);
+            docInstance.setFont(pdfFont, 'normal');
+            docInstance.text(content.companyName, textX, 29, { align: textAlign });
+            docInstance.text(`${content.pdfDate}: ${dateTimeString}`, textX, 35, { align: textAlign });
+            resolve();
+          };
+          img.onerror = () => {
+            const textX = isRtl ? pageWidth - margin : margin;
+            const textAlign = isRtl ? 'right' : 'left';
+            docInstance.setFontSize(22);
+            docInstance.setFont(pdfFont, 'bold');
+            docInstance.text(content.pdfTitle, textX, 22, { align: textAlign });
+            
+            docInstance.setFontSize(10);
+            docInstance.setFont(pdfFont, 'normal');
+            docInstance.text(content.companyName, textX, 29, { align: textAlign });
+            docInstance.text(`${content.pdfDate}: ${dateTimeString}`, textX, 35, { align: textAlign });
+            resolve();
+          };
+          img.src = logoUrl;
+        });
+      };
+      
+      let head = [[
+        content.estimatorHeaders.item,
+        content.estimatorHeaders.inclusion,
+        content.estimatorHeaders.size,
+        content.estimatorHeaders.pricePerGram,
+        content.estimatorHeaders.quantity,
+        content.estimatorHeaders.total
+      ]];
+      
+      const validRows = calculations.calculatedRows.filter(row => row.selectedTypeColor && parseFloat(String(row.quantity)) > 0);
+      let body = validRows.map(row => {
+          const sizeLabel = sizeOptions.find(opt => opt.key === row.selectedSize)?.label || '';
+          return [
+            row.selectedTypeColor,
+            row.inclusion,
+            sizeLabel,
+            `$${row.pricePerGram.toFixed(2)}`,
+            `${row.quantity} g`,
+            `$${row.total.toFixed(2)}`
+          ];
+      });
+
+      const arabicRegex = /[\u0600-\u06FF]/;
+      if (isRtl) {
+          const rtlMarker = '\u202B';
+          const processRtlText = (text: any) => {
+              if (typeof text === 'string' && arabicRegex.test(text)) {
+                  return rtlMarker + text;
+              }
+              return text;
+          };
+          head[0] = head[0].map(processRtlText);
+          body = body.map(row => row.map(processRtlText));
+      }
+
+      const columnStylesLtr = {
+          0: { cellWidth: 45, halign: 'left' },
+          1: { halign: 'left' },
+          2: { halign: 'left' },
+          3: { halign: 'center' },
+          4: { halign: 'center' },
+          5: { halign: 'right', fontStyle: 'bold' },
+      };
+
+      // Correctly mirrored styles for RTL layout after reversing column order
+      const columnStylesRtl = {
+          0: { halign: 'left', fontStyle: 'bold' }, // Corresponds to original 'total' column
+          1: { halign: 'center' }, // Corresponds to original 'quantity' column
+          2: { halign: 'center' }, // Corresponds to original 'pricePerGram' column
+          3: { halign: 'right' },  // Corresponds to original 'size' column
+          4: { halign: 'right' },  // Corresponds to original 'inclusion' column
+          5: { cellWidth: 45, halign: 'right'}, // Corresponds to original 'item' column
+      };
+      
+      let finalColumnStyles: { [key: number]: { cellWidth?: number; halign: string; fontStyle?: string; } } = columnStylesLtr;
+
+      if (isRtl) {
+          head = [head[0].reverse()];
+          body = body.map(row => row.reverse());
+          finalColumnStyles = columnStylesRtl;
+      }
+
+      await addHeader(doc);
+      
+      doc.autoTable({
+          head: head,
+          body: body,
+          startY: 48,
+          theme: 'grid',
+          headStyles: { fillColor: '#78350f', textColor: '#ffffff', fontStyle: 'bold', font: pdfFont },
+          alternateRowStyles: { fillColor: '#fef3c7' },
+          styles: { cellPadding: 2.5, fontSize: 9, font: pdfFont },
+          columnStyles: finalColumnStyles,
+      });
+
+      const finalY = doc.autoTable.previous.finalY;
+      const pageWidth = doc.internal.pageSize.getWidth();
+      doc.setFontSize(14);
+      doc.setFont(pdfFont, 'bold');
+      
+      const grandTotalText = `${content.grandTotalLabel}: $${calculations.grandTotal.toFixed(2)}`;
+      const grandTotalX = isRtl ? 15 : pageWidth - 15;
+      const grandTotalAlign = isRtl ? 'left' : 'right';
+      doc.text(grandTotalText, grandTotalX, finalY + 15, { align: grandTotalAlign });
+
+      doc.setFontSize(8);
+      doc.setFont(pdfFont, 'normal');
+      doc.setTextColor(100);
+      
+      const noteText = content.estimatorNote;
+      const splitText = doc.splitTextToSize(noteText, 180);
+      const noteX = isRtl ? pageWidth - 15 : 15;
+      const noteAlign = isRtl ? 'right' : 'left';
+      doc.text(splitText, noteX, finalY + 30, { align: noteAlign });
+      
+      const pageCount = doc.internal.getNumberOfPages();
+      for (let i = 1; i <= pageCount; i++) {
+          doc.setPage(i);
+          doc.setFont(pdfFont, 'normal');
+          doc.setFontSize(8);
+          doc.setTextColor(150);
+          doc.text(
+              content.companyName, 
+              doc.internal.pageSize.width / 2, 
+              doc.internal.pageSize.height - 10, 
+              { align: 'center' }
+          );
+      }
+
+      doc.save(fileName);
+    } catch (error) {
+      console.error("Failed to generate PDF:", error);
+      alert("Sorry, there was an error creating the PDF. Please ensure you have a stable internet connection and try again.");
+    }
   };
   
   const sizeOptions: {key: SizeKey, label: string}[] = [
@@ -224,12 +303,12 @@ const PriceEstimator: React.FC<PriceEstimatorProps> = ({ content }) => {
         <table className="w-full min-w-max">
           <thead>
             <tr className="border-b border-amber-200">
-              <th className="text-left font-semibold text-stone-600 p-3 text-sm">{content.estimatorHeaders.item}</th>
-              <th className="text-left font-semibold text-stone-600 p-3 text-sm">{content.estimatorHeaders.inclusion}</th>
-              <th className="text-left font-semibold text-stone-600 p-3 text-sm">{content.estimatorHeaders.size}</th>
+              <th className="text-left rtl:text-right font-semibold text-stone-600 p-3 text-sm">{content.estimatorHeaders.item}</th>
+              <th className="text-left rtl:text-right font-semibold text-stone-600 p-3 text-sm">{content.estimatorHeaders.inclusion}</th>
+              <th className="text-left rtl:text-right font-semibold text-stone-600 p-3 text-sm">{content.estimatorHeaders.size}</th>
               <th className="text-center font-semibold text-stone-600 p-3 text-sm">{content.estimatorHeaders.pricePerGram}</th>
               <th className="text-center font-semibold text-stone-600 p-3 text-sm">{content.estimatorHeaders.quantity}</th>
-              <th className="text-right font-semibold text-stone-600 p-3 text-sm">{content.estimatorHeaders.total}</th>
+              <th className="text-right rtl:text-left font-semibold text-stone-600 p-3 text-sm">{content.estimatorHeaders.total}</th>
               <th className="w-10"></th>
             </tr>
           </thead>
@@ -246,7 +325,7 @@ const PriceEstimator: React.FC<PriceEstimatorProps> = ({ content }) => {
                     {amberTypes.map(type => <option key={type} value={type}>{type}</option>)}
                   </select>
                 </td>
-                 <td className="p-2 align-top text-left text-stone-600 text-sm" style={{minWidth: '150px'}}>
+                 <td className="p-2 align-top text-left rtl:text-right text-stone-600 text-sm" style={{minWidth: '150px'}}>
                   {row.inclusion}
                 </td>
                 <td className="p-2 align-top" style={{minWidth: '180px'}}>
@@ -274,13 +353,13 @@ const PriceEstimator: React.FC<PriceEstimatorProps> = ({ content }) => {
                     disabled={!row.selectedSize}
                   />
                 </td>
-                <td className="p-2 align-top text-right font-bold text-amber-900 text-sm">
+                <td className="p-2 align-top text-right rtl:text-left font-bold text-amber-900 text-sm">
                   ${row.total.toFixed(2)}
                 </td>
                 <td className="p-2 align-top text-center">
                     {index > 0 && (
                          <button onClick={() => removeRow(row.id)} className="text-red-500 hover:text-red-700 p-1 rounded-full">
-                            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" /></svg>
+                            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="http://www.w3.org/2000/svg" fill="currentColor"><path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" /></svg>
                         </button>
                     )}
                 </td>
@@ -292,7 +371,7 @@ const PriceEstimator: React.FC<PriceEstimatorProps> = ({ content }) => {
 
       <div className="mt-6 p-3 bg-stone-100/70 border border-stone-200 rounded-lg text-xs text-stone-600 flex items-start gap-2">
         <div className="flex-shrink-0">
-          <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-stone-500" viewBox="0 0 20 20" fill="currentColor">
+          <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-stone-500" viewBox="http://www.w3.org/2000/svg" fill="currentColor">
             <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 002 0v-3a1 1 0 00-2 0z" clipRule="evenodd" />
           </svg>
         </div>
@@ -327,9 +406,9 @@ const PriceEstimator: React.FC<PriceEstimatorProps> = ({ content }) => {
             {content.downloadButton}
           </button>
         </div>
-        <div className="text-right bg-amber-50/70 p-4 rounded-lg">
+        <div className="text-right rtl:text-left bg-amber-50/70 p-4 rounded-lg">
           <span className="text-md font-semibold text-stone-600">{content.grandTotalLabel}:</span>
-          <span className="text-2xl font-bold text-amber-900 ml-.5">
+          <span className="text-2xl font-bold text-amber-900 ml-0.5 rtl:ml-0 rtl:mr-0.5">
             ${calculations.grandTotal.toFixed(2)}
           </span>
         </div>
