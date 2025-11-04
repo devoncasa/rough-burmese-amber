@@ -33,6 +33,7 @@ export interface LanguageContent {
     pricing: string;
     notes: string;
     gallery: string;
+    blogs: string;
   };
   tableHeaders: TableHeader[];
   tableData: AmberPrice[];
@@ -63,4 +64,19 @@ export interface LanguageContent {
   // PDF specific translations
   pdfTitle: string;
   pdfDate: string;
+  pdfOrderSummaryTitle: string;
+  pdfCommonTypes: string;
+  pdfRareTypes: string;
+  pdfTotalWeight: string;
+  pdfAvgPrice: string;
+  pdfSubtotal: string;
+  pdfDiscountInfoTitle: string;
+  pdfEstimatedDiscount: string;
+  pdfCommonType: string;
+  pdfRareType: string;
+  pdfEstimatedTotalAfterDiscount: string;
+  pdfDiscountPolicyTitle: string;
+  pdfDiscountPolicyContent: string;
+  pdfAvailabilityNoteTitle: string;
+  pdfAvailabilityNoteContent: string;
 }

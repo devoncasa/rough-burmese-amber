@@ -10,8 +10,8 @@ const enTableData = [
     { typeColor: 'Orange Amber (Clean)', description: 'Strong orange hue; high clarity; premium-grade material.', inclusion: 'Nearly inclusion-free', small: '4.6–6.3', medium: '6.3–8.6', large: '8.6–10.4', extraLarge: '10.4–12.1', notes: 'Excellent for carvings or high-end jewelry.', imageUrl: 'https://i.postimg.cc/W1YdV2pj/orange_amber.webp' },
     { typeColor: 'Pigeon Blood Red to Cherry Red', description: 'Rare color range; deep red tones to translucent cherry red.', inclusion: 'Partial or clean', small: '6.9–9.2', medium: '9.2–13.8', large: '13.8–18.4', extraLarge: '18.4–21.9', notes: 'Rare and collector-grade.', imageUrl: 'https://i.postimg.cc/4NZ7bLFC/pigeon-blood-red.webp' },
     { typeColor: 'Wood Pattern Amber', description: 'Unique internal pattern resembling wood grain; highly collectible.', inclusion: 'Visible pattern', small: '8.1–10.4', medium: '10.4–13.2', large: '13.2–16.1', extraLarge: '16.1–19.6', notes: 'Natural artistic appearance; each piece unique.', imageUrl: 'https://i.postimg.cc/hvRJYpDd/root_amber.webp' },
-    { typeColor: 'Black Amber (Brownish Visible)', description: 'Opaque to deep brownish-black; some internal glow.', inclusion: 'Partial inclusions', small: '4.6–5.8', medium: '5.8–7.5', large: '7.5–9.2', extraLarge: '9.2–10.9', notes: 'Popular for talismans; energy-rich look.', imageUrl: 'https://i.postimg.cc/zGqSjbfS/black-onyx.webp' },
-    { typeColor: 'Black Amber (Solid Dark)', description: 'Fully opaque, solid black; hardest to polish cleanly.', inclusion: 'None visible', small: '5.8–7.5', medium: '7.5–9.8', large: '9.8–11.5', extraLarge: '11.5–13.8', notes: 'Rare natural black; sought after in Asian spiritual markets.', imageUrl: 'https://i.postimg.cc/zGqSjbfS/black-onyx.webp' },
+    { typeColor: 'Black Amber (Brownish Visible)', description: 'Opaque to deep brownish-black; some internal glow.', inclusion: 'Partial inclusions', small: '4.6–5.8', medium: '5.8–7.5', large: '7.5–9.2', extraLarge: '9.2–10.9', notes: 'Popular for talismans; energy-rich look.', imageUrl: 'https://i.postimg.cc/zGqSjbfS/black_onyx.webp' },
+    { typeColor: 'Black Amber (Solid Dark)', description: 'Fully opaque, solid black; hardest to polish cleanly.', inclusion: 'None visible', small: '5.8–7.5', medium: '7.5–9.8', large: '9.8–11.5', extraLarge: '11.5–13.8', notes: 'Rare natural black; sought after in Asian spiritual markets.', imageUrl: 'https://i.postimg.cc/zGqSjbfS/black_onyx.webp' },
     { typeColor: 'Mila Amber (Bee Wax-like, Partial)', description: 'Milky or waxy tone, creamy texture; very limited source.', inclusion: 'Partial cloudy', small: '6.9–9.2', medium: '9.2–11.5', large: '11.5–13.8', extraLarge: '13.8–16.1', notes: 'Highly spiritual and healing symbolism.', imageUrl: 'https://i.postimg.cc/QMG39vnT/mila.webp' },
     { typeColor: 'Mila Amber (Pure Milky / Bee Wax Type)', description: 'Opaque creamy white to golden milky tone; extremely rare.', inclusion: 'No inclusions', small: '9.2–11.5', medium: '11.5–16.1', large: '16.1–19.6', extraLarge: '19.6–23.0', notes: 'Top-grade collectible; very few large pieces found.', imageUrl: 'https://i.postimg.cc/QMG39vnT/mila.webp' },
 ];
@@ -36,8 +36,8 @@ const esTableData = [
     { typeColor: 'Ámbar Naranja (Limpio)', description: 'Naranja intenso, alta claridad; material de primera calidad.', inclusion: 'Casi sin inclusiones', small: '4.6–6.3', medium: '6.3–8.6', large: '8.6–10.4', extraLarge: '10.4–12.1', notes: 'Perfecto para tallas finas o joyería de gama alta.', imageUrl: 'https://i.postimg.cc/W1YdV2pj/orange_amber.webp' },
     { typeColor: 'Rojo Sangre de Paloma / Rojo Cereza', description: 'Rango de color raro; tonos rojos intensos hasta cereza translúcido.', inclusion: 'Parcial o limpio', small: '6.9–9.2', medium: '9.2–13.8', large: '13.8–18.4', extraLarge: '18.4–21.9', notes: 'Muy escaso; calidad de colección.', imageUrl: 'https://i.postimg.cc/4NZ7bLFC/pigeon-blood-red.webp' },
     { typeColor: 'Ámbar con Vetas de Madera', description: 'Patrón interno único que recuerda a la madera; muy coleccionable.', inclusion: 'Patrón visible', small: '8.1–10.4', medium: '10.4–13.2', large: '13.2–16.1', extraLarge: '16.1–19.6', notes: 'Apariencia artística natural; cada pieza es única.', imageUrl: 'https://i.postimg.cc/hvRJYpDd/root_amber.webp' },
-    { typeColor: 'Ámbar Negro (Marrón Visible)', description: 'Opaco a marrón oscuro; brillo interno suave.', inclusion: 'Inclusiones parciales', small: '4.6–5.8', medium: '5.8–7.5', large: '7.5–9.2', extraLarge: '9.2–10.9', notes: 'Popular como talismán; apariencia energética.', imageUrl: 'https://i.postimg.cc/zGqSjbfS/black-onyx.webp' },
-    { typeColor: 'Ámbar Negro (Sólido Oscuro)', description: 'Completamente opaco, negro sólido; difícil de pulir sin defectos.', inclusion: 'Sin inclusiones', small: '5.8–7.5', medium: '7.5–9.8', large: '9.8–11.5', extraLarge: '11.5–13.8', notes: 'Muy raro; muy buscado en el mercado espiritual asiático.', imageUrl: 'https://i.postimg.cc/zGqSjbfS/black-onyx.webp' },
+    { typeColor: 'Ámbar Negro (Marrón Visible)', description: 'Opaco a marrón oscuro; brillo interno suave.', inclusion: 'Inclusiones parciales', small: '4.6–5.8', medium: '5.8–7.5', large: '7.5–9.2', extraLarge: '9.2–10.9', notes: 'Popular como talismán; apariencia energética.', imageUrl: 'https://i.postimg.cc/zGqSjbfS/black_onyx.webp' },
+    { typeColor: 'Ámbar Negro (Sólido Oscuro)', description: 'Completamente opaco, negro sólido; difícil de pulir sin defectos.', inclusion: 'Sin inclusiones', small: '5.8–7.5', medium: '7.5–9.8', large: '9.8–11.5', extraLarge: '11.5–13.8', notes: 'Muy raro; muy buscado en el mercado espiritual asiático.', imageUrl: 'https://i.postimg.cc/zGqSjbfS/black_onyx.webp' },
     { typeColor: 'Ámbar Mila (Tipo Cera de Abeja, Parcial)', description: 'Tono lechoso o ceroso; textura cremosa; fuente muy limitada.', inclusion: 'Parcialmente nublado', small: '6.9–9.2', medium: '9.2–11.5', large: '11.5–13.8', extraLarge: '13.8–16.1', notes: 'Gran simbolismo espiritual y propiedades curativas.', imageUrl: 'https://i.postimg.cc/QMG39vnT/mila.webp' },
     { typeColor: 'Ámbar Mila (Puro / Tipo Cera de Abeja)', description: 'Blanco cremoso a dorado lechoso; extremadamente raro.', inclusion: 'Sin inclusiones', small: '9.2–11.5', medium: '11.5–16.1', large: '16.1–19.6', extraLarge: '19.6–23.0', notes: 'Grado de colección; muy pocas piezas grandes disponibles.', imageUrl: 'https://i.postimg.cc/QMG39vnT/mila.webp' },
 ];
@@ -62,8 +62,8 @@ const arTableData = [
     { typeColor: 'برتقالي (نقي)', description: 'لون برتقالي قوي؛ صفاء عالٍ؛ خامة ممتازة.', inclusion: 'شبه خالٍ من الشوائب', small: '4.6–6.3', medium: '6.3–8.6', large: '8.6–10.4', extraLarge: '10.4–12.1', notes: 'مثالي للنحت أو المجوهرات الفاخرة.', imageUrl: 'https://i.postimg.cc/W1YdV2pj/orange_amber.webp' },
     { typeColor: 'أحمر دم الحمام إلى أحمر كرزي', description: 'مجموعة ألوان نادرة؛ من الأحمر الداكن إلى الأحمر الكرزي الشفاف.', inclusion: 'شوائب جزئية أو نقي', small: '6.9–9.2', medium: '9.2–13.8', large: '13.8–18.4', extraLarge: '18.4–21.9', notes: 'من أندر الأنواع ومناسب لهواة الجمع.', imageUrl: 'https://i.postimg.cc/4NZ7bLFC/pigeon-blood-red.webp' },
     { typeColor: 'نقش خشبي', description: 'نمط داخلي فريد يشبه عروق الخشب؛ مرغوب جدًا.', inclusion: 'نقش ظاهر', small: '8.1–10.4', medium: '10.4–13.2', large: '13.2–16.1', extraLarge: '16.1–19.6', notes: 'مظهر طبيعي فني؛ كل قطعة فريدة.', imageUrl: 'https://i.postimg.cc/hvRJYpDd/root_amber.webp' },
-    { typeColor: 'أسود (بني واضح)', description: 'غير شفاف إلى بني غامق؛ يحتوي على توهج داخلي بسيط.', inclusion: 'شوائب جزئية', small: '4.6–5.8', medium: '5.8–7.5', large: '7.5–9.2', extraLarge: '9.2–10.9', notes: 'شائع كتعويذة؛ يتميز بطاقة قوية.', imageUrl: 'https://i.postimg.cc/zGqSjbfS/black-onyx.webp' },
-    { typeColor: 'أسود صلب', description: 'أسود بالكامل غير شفاف؛ صعب التلميع.', inclusion: 'بدون شوائب مرئية', small: '5.8–7.5', medium: '7.5–9.8', large: '9.8–11.5', extraLarge: '11.5–13.8', notes: 'نادر جدًا؛ مرغوب في الأسواق الروحانية الآسيوية.', imageUrl: 'https://i.postimg.cc/zGqSjbfS/black-onyx.webp' },
+    { typeColor: 'أسود (بني واضح)', description: 'غير شفاف إلى بني غامق؛ يحتوي على توهج داخلي بسيط.', inclusion: 'شوائب جزئية', small: '4.6–5.8', medium: '5.8–7.5', large: '7.5–9.2', extraLarge: '9.2–10.9', notes: 'شائع كتعويذة؛ يتميز بطاقة قوية.', imageUrl: 'https://i.postimg.cc/zGqSjbfS/black_onyx.webp' },
+    { typeColor: 'أسود صلب', description: 'أسود بالكامل غير شفاف؛ صعب التلميع.', inclusion: 'بدون شوائب مرئية', small: '5.8–7.5', medium: '7.5–9.8', large: '9.8–11.5', extraLarge: '11.5–13.8', notes: 'نادر جدًا؛ مرغوب في الأسواق الروحانية الآسيوية.', imageUrl: 'https://i.postimg.cc/zGqSjbfS/black_onyx.webp' },
     { typeColor: 'ميلا (شبه شمع النحل)', description: 'لون حليبي أو شمعي؛ خامة محدودة جدًا.', inclusion: 'غائم جزئي', small: '6.9–9.2', medium: '9.2–11.5', large: '11.5–13.8', extraLarge: '13.8–16.1', notes: 'يرمز للطاقة الروحية والشفاء.', imageUrl: 'https://i.postimg.cc/QMG39vnT/mila.webp' },
     { typeColor: 'ميلا (حليبي نقي / شمع النحل)', description: 'أبيض حليبي إلى ذهبي؛ نادر للغاية.', inclusion: 'بدون شوائب', small: '9.2–11.5', medium: '11.5–16.1', large: '16.1–19.6', extraLarge: '19.6–23.0', notes: 'من أعلى الدرجات القابلة للجمع؛ نادر جدًا بالحجم الكبير.', imageUrl: 'https://i.postimg.cc/QMG39vnT/mila.webp' },
 ];
@@ -88,8 +88,8 @@ const hiTableData = [
     { typeColor: 'ऑरेंज एंबर (स्वच्छ)', description: 'गहरा नारंगी; अत्यधिक पारदर्शिता; प्रीमियम श्रेणी।', inclusion: 'लगभग बिना समावेशन', small: '4.6–6.3', medium: '6.3–8.6', large: '8.6–10.4', extraLarge: '10.4–12.1', notes: 'नक्काशी या उच्च श्रेणी के आभूषणों के लिए उत्तम।', imageUrl: 'https://i.postimg.cc/W1YdV2pj/orange_amber.webp' },
     { typeColor: 'पिजन ब्लड रेड / चेरी रेड', description: 'दुर्लभ रंग श्रेणी; गहरा लाल से लेकर पारदर्शी चेरी लाल।', inclusion: 'आंशिक या स्वच्छ', small: '6.9–9.2', medium: '9.2–13.8', large: '13.8–18.4', extraLarge: '18.4–21.9', notes: 'संग्राहक श्रेणी के लिए मूल्यवान।', imageUrl: 'https://i.postimg.cc/4NZ7bLFC/pigeon-blood-red.webp' },
     { typeColor: 'वुड पैटर्न एंबर', description: 'लकड़ी के तंतु जैसी प्राकृतिक बनावट; अत्यधिक संग्राह्य।', inclusion: 'दृश्य पैटर्न', small: '8.1–10.4', medium: '10.4–13.2', large: '13.2–16.1', extraLarge: '16.1–19.6', notes: 'प्रत्येक टुकड़ा अद्वितीय और कलात्मक।', imageUrl: 'https://i.postimg.cc/hvRJYpDd/root_amber.webp' },
-    { typeColor: 'ब्लैक एंबर (भूरा झलक)', description: 'गहरा भूरा से काला; कुछ आंतरिक चमक।', inclusion: 'आंशिक', small: '4.6–5.8', medium: '5.8–7.5', large: '7.5–9.2', extraLarge: '9.2–10.9', notes: 'ताबीज़ के लिए लोकप्रिय; ऊर्जा-युक्त दिखावट।', imageUrl: 'https://i.postimg.cc/zGqSjbfS/black-onyx.webp' },
-    { typeColor: 'ब्लैक एंबर (सॉलिड डार्क)', description: 'पूर्णतः अपारदर्शी काला; पॉलिश करना कठिन।', inclusion: 'नहीं', small: '5.8–7.5', medium: '7.5–9.8', large: '9.8–11.5', extraLarge: '11.5–13.8', notes: 'एशियाई आध्यात्मिक बाजारों में अत्यधिक मांग।', imageUrl: 'https://i.postimg.cc/zGqSjbfS/black-onyx.webp' },
+    { typeColor: 'ब्लैक एंबर (भूरा झलक)', description: 'गहरा भूरा से काला; कुछ आंतरिक चमक।', inclusion: 'आंशिक', small: '4.6–5.8', medium: '5.8–7.5', large: '7.5–9.2', extraLarge: '9.2–10.9', notes: 'ताबीज़ के लिए लोकप्रिय; ऊर्जा-युक्त दिखावट।', imageUrl: 'https://i.postimg.cc/zGqSjbfS/black_onyx.webp' },
+    { typeColor: 'ब्लैक एंबर (सॉलिड डार्क)', description: 'पूर्णतः अपारदर्शी काला; पॉलिश करना कठिन।', inclusion: 'नहीं', small: '5.8–7.5', medium: '7.5–9.8', large: '9.8–11.5', extraLarge: '11.5–13.8', notes: 'एशियाई आध्यात्मिक बाजारों में अत्यधिक मांग।', imageUrl: 'https://i.postimg.cc/zGqSjbfS/black_onyx.webp' },
     { typeColor: 'मीला एंबर (बी वैक्स समान, आंशिक)', description: 'दूधिया या मोम जैसा बनावट; बहुत सीमित स्रोत।', inclusion: 'बादल जैसा आंशिक', small: '6.9–9.2', medium: '9.2–11.5', large: '11.5–13.8', extraLarge: '13.8–16.1', notes: 'आध्यात्मिक और उपचारात्मक प्रतीक।', imageUrl: 'https://i.postimg.cc/QMG39vnT/mila.webp' },
     { typeColor: 'मीला एंबर (शुद्ध दूधिया / बी वैक्स टाइप)', description: 'क्रीमी सफेद से स्वर्ण दूधिया टोन; अत्यंत दुर्लभ।', inclusion: 'कोई नहीं', small: '9.2–11.5', medium: '11.5–16.1', large: '16.1–19.6', extraLarge: '19.6–23.0', notes: 'सर्वोच्च श्रेणी का संग्राहक नमूना।', imageUrl: 'https://i.postimg.cc/QMG39vnT/mila.webp' },
 ];
@@ -105,19 +105,19 @@ const hiNotesData = [
 ];
 
 const thTableData = [
-    { typeColor: 'ดาร์กคอนยัค (Dark Cognac)', description: 'มีมากทั่วไป; สีเข้มแบบน้ำตาลพร้อมโอกาสขัดเงาดี', inclusion: 'สิ่งเจือปนบางส่วน', small: '1.2–1.7', medium: '1.4–2.3', large: '2.9–3.5', extraLarge: '3.5–4.0', notes: 'เหมาะสำหรับการผลิตจำนวนมากหรือผู้เริ่มสะสม', imageUrl: 'https://i.postimg.cc/90P4HZ0N/deep_cognac_amber.webp' },
-    { typeColor: 'ไลท์ฮันนี่ (มีสิ่งเจือปน)', description: 'สีอำพันอบอุ่น ความใสปานกลาง หายากกว่าสี Dark Cognac เล็กน้อย', inclusion: 'สิ่งเจือปนบางส่วน', small: '1.7–2.3', medium: '2.3–3.2', large: '3.5–4.4', extraLarge: '4.4–5.2', notes: 'สมดุลระหว่างสีและราคา', imageUrl: 'https://i.postimg.cc/MZ1fB25b/light_cognac_amber.webp' },
-    { typeColor: 'ไลท์ฮันนี่ (สะอาด)', description: 'สีทอง-เหลืองใส มีสิ่งเจือปนน้อยหรือแทบไม่เห็น', inclusion: 'แทบไม่มีสิ่งเจือปน', small: '2.3–3.5', medium: '3.2–4.6', large: '4.6–6.3', extraLarge: '5.8–6.9', notes: 'เหมาะสำหรับขัดเงาเพื่อทำเครื่องประดับ', imageUrl: 'https://i.postimg.cc/MZ1fB25b/light_cognac_amber.webp' },
-    { typeColor: 'โกลด์เยลโลว์ (มีสิ่งเจือปน)', description: 'สีทองสว่าง มีสิ่งเจือปนบ้าง หายากในขนาดใหญ่', inclusion: 'สิ่งเจือปนบางส่วน', small: '2.9–4.0', medium: '3.5–5.2', large: '5.2–6.9', extraLarge: '6.9–8.6', notes: 'เหมาะกับเครื่องประดับหรู', imageUrl: 'https://i.postimg.cc/t44s81j2/golden_yellow.webp' },
-    { typeColor: 'โกลด์เยลโลว์ (สะอาด)', description: 'สีทอง-เหลืองบริสุทธิ์ ใสมาก หายากในชิ้นใหญ่', inclusion: 'ไม่มีสิ่งเจือปน', small: '3.5–5.2', medium: '5.2–7.5', large: '7.5–9.2', extraLarge: '9.2–10.4', notes: 'เงาแสงดีมาก เพิ่มมูลค่า', imageUrl: 'https://i.postimg.cc/t44s81j2/golden_yellow.webp' },
-    { typeColor: 'ออเรนจ์แอมเบอร์ (มีสิ่งเจือปน)', description: 'สีส้มอบอุ่น ปานกลางหายาก', inclusion: 'สิ่งเจือปนบางส่วน', small: '3.5–4.6', medium: '4.6–6.3', large: '6.3–8.1', extraLarge: '8.1–9.2', notes: 'เหมาะสำหรับลูกประคำและจี้', imageUrl: 'https://i.postimg.cc/W1YdV2pj/orange_amber.webp' },
-    { typeColor: 'ออเรนจ์แอมเบอร์ (สะอาด)', description: 'สีส้มเข้ม ความใสสูง เกรดพรีเมียม', inclusion: 'แทบไม่มีสิ่งเจือปน', small: '4.6–6.3', medium: '6.3–8.6', large: '8.6–10.4', extraLarge: '10.4–12.1', notes: 'เหมาะสำหรับแกะสลักหรือเครื่องประดับหรู', imageUrl: 'https://i.postimg.cc/W1YdV2pj/orange_amber.webp' },
-    { typeColor: 'เลือดนกพิราบถึงแดงเชอร์รี่', description: 'ช่วงสีหายาก สีแดงเข้มถึงเชอร์รี่ใส', inclusion: 'บางส่วนหรือใส', small: '6.9–9.2', medium: '9.2–13.8', large: '13.8–18.4', extraLarge: '18.4–21.9', notes: 'หายากและเหมาะสะสม', imageUrl: 'https://i.postimg.cc/4NZ7bLFC/pigeon-blood-red.webp' },
-    { typeColor: 'ลายไม้', description: 'ลายภายในเหมือนไม้; เหมาะสะสม', inclusion: 'ลายเห็นชัด', small: '8.1–10.4', medium: '10.4–13.2', large: '13.2–16.1', extraLarge: '16.1–19.6', notes: 'ลวดลายธรรมชาติ; ทุกชิ้นไม่ซ้ำกัน', imageUrl: 'https://i.postimg.cc/hvRJYpDd/root_amber.webp' },
-    { typeColor: 'อำพันดำ (มีสีน้ำตาล)', description: 'ทึบถึงดำเข้ม มีแสงภายในบางส่วน', inclusion: 'สิ่งเจือปนบางส่วน', small: '4.6–5.8', medium: '5.8–7.5', large: '7.5–9.2', extraLarge: '9.2–10.9', notes: 'นิยมทำเครื่องราง; ดูมีพลัง', imageUrl: 'https://i.postimg.cc/zGqSjbfS/black-onyx.webp' },
-    { typeColor: 'อำพันดำ (ทึบ)', description: 'ดำทึบเต็มที่ ขัดเงายากที่สุด', inclusion: 'ไม่มี', small: '5.8–7.5', medium: '7.5–9.8', large: '9.8–11.5', extraLarge: '11.5–13.8', notes: 'หายาก; เป็นที่นิยมในตลาดจิตวิญญาณเอเชีย', imageUrl: 'https://i.postimg.cc/zGqSjbfS/black-onyx.webp' },
-    { typeColor: 'อำพันมิลา (คล้ายขี้ผึ้ง)', description: 'สีขาวนวลคล้ายขี้ผึ้ง แหล่งจำกัด', inclusion: 'ขุ่นบางส่วน', small: '6.9–9.2', medium: '9.2–11.5', large: '11.5–13.8', extraLarge: '13.8–16.1', notes: 'สัญลักษณ์เชิงจิตวิญญาณและรักษา', imageUrl: 'https://i.postimg.cc/QMG39vnT/mila.webp' },
-    { typeColor: 'อำพันมิลา (น้ำนม/ขี้ผึ้ง)', description: 'สีขาวนวลทึบถึงทอง Milky; หายากมาก', inclusion: 'ไม่มีสิ่งเจือปน', small: '9.2–11.5', medium: '11.5–16.1', large: '16.1–19.6', extraLarge: '19.6–23.0', notes: 'หายากที่สุด; ชิ้นใหญ่มีน้อยมาก', imageUrl: 'https://i.postimg.cc/QMG39vnT/mila.webp' },
+    { typeColor: 'สีน้ำผึ้งเข้ม (Deark Cognac)', description: 'มีมากทั่วไป; สีเข้มแบบน้ำตาลพร้อมโอกาสขัดเงาดี', inclusion: 'สิ่งเจือปนบางส่วน', small: '1.2–1.7', medium: '1.4–2.3', large: '2.9–3.5', extraLarge: '3.5–4.0', notes: 'เหมาะสำหรับการผลิตจำนวนมากหรือผู้เริ่มสะสม', imageUrl: 'https://i.postimg.cc/90P4HZ0N/deep_cognac_amber.webp' },
+    { typeColor: 'สีน้ำผึ้งอ่อน (มี inclusions บ้าง)', description: 'สีอำพันอบอุ่น ความใสปานกลาง หายากกว่าสี Dark Cognac เล็กน้อย', inclusion: 'สิ่งเจือปนบางส่วน', small: '1.7–2.3', medium: '2.3–3.2', large: '3.5–4.4', extraLarge: '4.4–5.2', notes: 'สมดุลระหว่างสีและราคา', imageUrl: 'https://i.postimg.cc/MZ1fB25b/light_cognac_amber.webp' },
+    { typeColor: 'สีน้ำผึ้งอ่อน (สะอาด)', description: 'สีทอง-เหลืองใส มีสิ่งเจือปนน้อยหรือแทบไม่เห็น', inclusion: 'แทบไม่มีสิ่งเจือปน', small: '2.3–3.5', medium: '3.2–4.6', large: '4.6–6.3', extraLarge: '5.8–6.9', notes: 'เหมาะสำหรับขัดเงาเพื่อทำเครื่องประดับ', imageUrl: 'https://i.postimg.cc/MZ1fB25b/light_cognac_amber.webp' },
+    { typeColor: 'สีเหลืองทอง (มี inclusions บ้าง)', description: 'สีทองสว่าง มีสิ่งเจือปนบ้าง หายากในขนาดใหญ่', inclusion: 'สิ่งเจือปนบางส่วน', small: '2.9–4.0', medium: '3.5–5.2', large: '5.2–6.9', extraLarge: '6.9–8.6', notes: 'เหมาะกับเครื่องประดับหรู', imageUrl: 'https://i.postimg.cc/t44s81j2/golden_yellow.webp' },
+    { typeColor: 'สีเหลืองทอง (สะอาด)', description: 'สีทอง-เหลืองบริสุทธิ์ ใสมาก หายากในชิ้นใหญ่', inclusion: 'ไม่มีสิ่งเจือปน', small: '3.5–5.2', medium: '5.2–7.5', large: '7.5–9.2', extraLarge: '9.2–10.4', notes: 'เงาแสงดีมาก เพิ่มมูลค่า', imageUrl: 'https://i.postimg.cc/t44s81j2/golden_yellow.webp' },
+    { typeColor: 'อำพันส้ม (มี inclusions บ้าง)', description: 'สีส้มอบอุ่น ปานกลางหายาก', inclusion: 'สิ่งเจือปนบางส่วน', small: '3.5–4.6', medium: '4.6–6.3', large: '6.3–8.1', extraLarge: '8.1–9.2', notes: 'เหมาะสำหรับลูกประคำและจี้', imageUrl: 'https://i.postimg.cc/W1YdV2pj/orange_amber.webp' },
+    { typeColor: 'อำพันส้ม (สะอาด)', description: 'สีส้มเข้ม ความใสสูง เกรดพรีเมียม', inclusion: 'แทบไม่มีสิ่งเจือปน', small: '4.6–6.3', medium: '6.3–8.6', large: '8.6–10.4', extraLarge: '10.4–12.1', notes: 'เหมาะสำหรับแกะสลักหรือเครื่องประดับหรู', imageUrl: 'https://i.postimg.cc/W1YdV2pj/orange_amber.webp' },
+    { typeColor: 'อำพันแดงเลือดนก', description: 'ช่วงสีหายาก สีแดงเข้มถึงเชอร์รี่ใส', inclusion: 'บางส่วนหรือใส', small: '6.9–9.2', medium: '9.2–13.8', large: '13.8–18.4', extraLarge: '18.4–21.9', notes: 'หายากและเหมาะสะสม', imageUrl: 'https://i.postimg.cc/4NZ7bLFC/pigeon-blood-red.webp' },
+    { typeColor: 'อำพันลายไม้', description: 'ลายภายในเหมือนไม้; เหมาะสะสม', inclusion: 'ลายเห็นชัด', small: '8.1–10.4', medium: '10.4–13.2', large: '13.2–16.1', extraLarge: '16.1–19.6', notes: 'ลวดลายธรรมชาติ; ทุกชิ้นไม่ซ้ำกัน', imageUrl: 'https://i.postimg.cc/hvRJYpDd/root_amber.webp' },
+    { typeColor: 'อำพันดำ (มีลายน้ำตาลปนเล็กน้อย)', description: 'ทึบถึงดำเข้ม มีแสงภายในบางส่วน', inclusion: 'สิ่งเจือปนบางส่วน', small: '4.6–5.8', medium: '5.8–7.5', large: '7.5–9.2', extraLarge: '9.2–10.9', notes: 'นิยมทำเครื่องราง; ดูมีพลัง', imageUrl: 'https://i.postimg.cc/zGqSjbfS/black_onyx.webp' },
+    { typeColor: 'อำพันดำสนิท', description: 'ดำทึบเต็มที่ ขัดเงายากที่สุด', inclusion: 'ไม่มี', small: '5.8–7.5', medium: '7.5–9.8', large: '9.8–11.5', extraLarge: '11.5–13.8', notes: 'หายาก; เป็นที่นิยมในตลาดจิตวิญญาณเอเชีย', imageUrl: 'https://i.postimg.cc/zGqSjbfS/black_onyx.webp' },
+    { typeColor: 'อำพันมิล่า (เหลืองจักรพรรดิสีเข้ม)', description: 'สีขาวนวลคล้ายขี้ผึ้ง แหล่งจำกัด', inclusion: 'ขุ่นบางส่วน', small: '6.9–9.2', medium: '9.2–11.5', large: '11.5–13.8', extraLarge: '13.8–16.1', notes: 'สัญลักษณ์เชิงจิตวิญญาณและรักษา', imageUrl: 'https://i.postimg.cc/QMG39vnT/mila.webp' },
+    { typeColor: 'อำพันมิล่า (เหลืองจักรพรรดิสีทอง)', description: 'สีขาวนวลทึบถึงทอง Milky; หายากมาก', inclusion: 'ไม่มีสิ่งเจือปน', small: '9.2–11.5', medium: '11.5–16.1', large: '16.1–19.6', extraLarge: '19.6–23.0', notes: 'หายากที่สุด; ชิ้นใหญ่มีน้อยมาก', imageUrl: 'https://i.postimg.cc/QMG39vnT/mila.webp' },
 ];
 
 const thNotesData = [
@@ -149,6 +149,7 @@ Though the price can be two to three times higher, the refined pieces are ready 
       pricing: 'Pricing & Estimator',
       notes: 'Notes & Details',
       gallery: 'Gallery',
+      blogs: 'Blogs',
     },
     fullPriceListTitle: 'Full Price List',
     priceListInfo: {
@@ -175,7 +176,7 @@ In contrast, if you request smaller pieces — for instance, from 5 grams to 15 
     notesData: enNotesData,
     specialNote: {
       title: 'Important Note on Availability',
-      content: 'Please note that the following types and colors of Burmese amber are extremely rare and difficult to find: Cherry Red, Wooden Pattern, Black, and Mila (Milky/Bee Wax Type). We cannot guarantee full availability or large quantities upon request. However, we will do our best to source them and provide updated stock information within a few days after your order is placed.'
+      content: 'Please note that the following types and colors of Burmese amber are extremely rare and difficult to find: Golden yellow and Orange with minimal inclusions, Red, Wooden Pattern, Black, and Mila (Milky/Bee Wax Type). We cannot guarantee full availability or large quantities upon request. However, we will do our best to source them and provide updated stock information within a few days after your order is placed.'
     },
     companyName: 'Vicky Burmese Amber & Gems Co., Ltd.',
     estimatorTitle: 'Price Estimator',
@@ -200,10 +201,25 @@ In contrast, if you request smaller pieces — for instance, from 5 grams to 15 
     },
     pdfTitle: 'Price Estimation Summary',
     pdfDate: 'Date of Estimate',
+    pdfOrderSummaryTitle: 'Order Summary by Type',
+    pdfCommonTypes: 'Common Amber Types',
+    pdfRareTypes: 'Rare Amber Types',
+    pdfTotalWeight: 'Total Weight',
+    pdfAvgPrice: 'Average Price',
+    pdfSubtotal: 'Subtotal',
+    pdfDiscountInfoTitle: 'Discounts & Availability Information',
+    pdfEstimatedDiscount: 'Estimated Discount',
+    pdfCommonType: '(Common Type)',
+    pdfRareType: '(Rare Type)',
+    pdfEstimatedTotalAfterDiscount: 'Estimated Total After Discount',
+    pdfDiscountPolicyTitle: 'Discount Policy',
+    pdfDiscountPolicyContent: 'Discounts depend on quantity and color/type of amber.\nFinal discount rates will be confirmed after reviewing your full order and item selection.',
+    pdfAvailabilityNoteTitle: 'Important Note on Availability',
+    pdfAvailabilityNoteContent: 'The following Burmese amber types and colors are extremely rare and difficult to find: Red, Wooden Pattern, Black, and Mila (Milky/Bee Wax Type). Large quantities of these may not be fully available. However, we will make every effort to source them and provide an updated stock report within a few days after your order is placed.',
   },
   es: {
     title: 'Guía de Precios del Ámbar Birmano en Bruto',
-    byline: 'por Vicky Burmese Amber & Gems',
+    byline: 'by Vicky Burmese Amber & Gems',
     subtitle: 'Una guía completa de precios al por mayor (USD/gramo) para el ámbar birmano, basada en color, inclusión, rareza y tamaño. Los precios de venta al público pueden ser un 20-40% más altos.',
     introduction: `El ámbar birmano, también conocido como Burmite, es uno de los ámbares naturales más antiguos y fascinantes del mundo, formado a partir de resina de pino fosilizada hace más de 100 millones de años. Cada piedra en bruto conserva la belleza de los bosques prehistóricos, conteniendo una sensación de calidez, pureza y energía atemporal.
 
@@ -218,6 +234,7 @@ Aunque su precio puede ser de dos a tres veces mayor, las piezas refinadas está
       pricing: 'Precios y Estimador',
       notes: 'Notas y Detalles',
       gallery: 'Galería',
+      blogs: 'Blogs',
     },
     fullPriceListTitle: 'Lista de Precios Completa',
     priceListInfo: {
@@ -244,7 +261,7 @@ En cambio, si solicita piezas más pequeñas — por ejemplo, de 5 gramos a 15 g
     notesData: esNotesData,
     specialNote: {
       title: 'Nota Importante sobre Disponibilidad',
-      content: 'Tenga en cuenta que los siguientes tipos y colores de ámbar birmano son extremadamente raros y difíciles de conseguir: Rojo Cereza, Patrón de Madera, Negro y Mila (Tipo Lechoso / Cera de Abeja). No podemos garantizar la disponibilidad total ni grandes cantidades por pedido, pero haremos todo lo posible por obtenerlos y actualizar la información de existencias en unos pocos días después de realizar su pedido.'
+      content: 'Tenga en cuenta que los siguientes tipos y colores de ámbar birmano son extremadamente raros y difíciles de conseguir: Dorado y Naranja (limpio), Rojo, Patrón de Madera, Negro y Mila (Tipo Lechoso / Cera de Abeja). No podemos garantizar la disponibilidad total ni grandes cantidades por pedido, pero haremos todo lo posible por obtenerlos y actualizar la información de existencias en unos pocos días después de realizar su pedido.'
     },
     companyName: 'Vicky Burmese Amber & Gems Co., Ltd.',
     estimatorTitle: 'Estimador de Precios',
@@ -269,10 +286,25 @@ En cambio, si solicita piezas más pequeñas — por ejemplo, de 5 gramos a 15 g
     },
     pdfTitle: 'Resumen de Estimación de Precios',
     pdfDate: 'Fecha de Estimación',
+    pdfOrderSummaryTitle: 'Resumen del Pedido por Tipo',
+    pdfCommonTypes: 'Tipos de Ámbar Comunes',
+    pdfRareTypes: 'Tipos de Ámbar Raros',
+    pdfTotalWeight: 'Peso Total',
+    pdfAvgPrice: 'Precio Promedio',
+    pdfSubtotal: 'Subtotal',
+    pdfDiscountInfoTitle: 'Información de Descuentos y Disponibilidad',
+    pdfEstimatedDiscount: 'Descuento Estimado',
+    pdfCommonType: '(Tipo Común)',
+    pdfRareType: '(Tipo Raro)',
+    pdfEstimatedTotalAfterDiscount: 'Total Estimado con Descuento',
+    pdfDiscountPolicyTitle: 'Política de Descuentos',
+    pdfDiscountPolicyContent: 'Los descuentos dependen de la cantidad y el color/tipo de ámbar.\nLas tasas de descuento finales se confirmarán después de revisar su pedido completo y la selección de artículos.',
+    pdfAvailabilityNoteTitle: 'Nota Importante sobre Disponibilidad',
+    pdfAvailabilityNoteContent: 'Los siguientes tipos y colores de ámbar birmano son extremadamente raros y difíciles de encontrar: Rojo, Patrón de Madera, Negro y Mila (Tipo Lechoso/Cera de Abeja). Es posible que no haya grandes cantidades disponibles. Sin embargo, haremos todo lo posible para conseguirlos y proporcionar un informe de existencias actualizado en unos días después de realizar su pedido.',
   },
   ar: {
     title: 'دليل أسعار العنبر البورمي الخام',
-    byline: 'بواسطة فيكي للعنبر والأحجار الكريمة البورمية',
+    byline: 'by Vicky Burmese Amber & Gems',
     subtitle: 'دليل شامل لأسعار الجملة بالدولار الأمريكي لكل غرام من العنبر البورمي، يعتمد على اللون، نوع الشوائب، الندرة، والحجم. قد تكون أسعار التجزئة أعلى بنسبة تتراوح بين 20% إلى 40%.',
     introduction: `العنبر البورمي، المعروف أيضًا باسم بورمايت، هو أحد أقدم وأجمل أنواع العنبر الطبيعي في العالم، وتكوّن من راتنج الصنوبر المتحجر قبل أكثر من 100 مليون سنة. كل حجر خام يحتفظ بجمال الغابات القديمة، ويعكس شعورًا بالدفء والنقاء والطاقة الخالدة.
 
@@ -287,6 +319,7 @@ En cambio, si solicita piezas más pequeñas — por ejemplo, de 5 gramos a 15 g
       pricing: 'الأسعار والحاسبة',
       notes: 'ملاحظات وتفاصيل',
       gallery: 'المعرض',
+      blogs: 'المدونة',
     },
     fullPriceListTitle: 'قائمة الأسعار الكاملة',
     priceListInfo: {
@@ -313,7 +346,7 @@ En cambio, si solicita piezas más pequeñas — por ejemplo, de 5 gramos a 15 g
     notesData: arNotesData,
     specialNote: {
       title: 'ملاحظة هامة حول التوفر',
-      content: 'يرجى الملاحظة أن الأنواع والألوان التالية من العنبر البورمي نادرة جدًا وصعبة الحصول عليها: الأحمر الكرزي، النقشة الخشبية، الأسود، والمِيلا (نوع حليبي/شمع النحل). لا يمكننا ضمان توفر كميات كبيرة عند الطلب، ولكننا سنبذل قصارى جهدنا لتوفيرها وتحديث حالة المخزون خلال عدة أيام بعد تأكيد الطلب.'
+      content: 'يرجى الملاحظة أن الأنواع والألوان التالية من العنبر البورمي نادرة جدًا وصعبة الحصول عليها: الأصفر الذهبي والبرتقالي (نقي)، الأحمر، النقشة الخشبية، الأسود، والمِيلا (نوع حليبي/شمع النحل). لا يمكننا ضمان توفر كميات كبيرة عند الطلب، ولكننا سنبذل قصارى جهدنا لتوفيرها وتحديث حالة المخزون خلال عدة أيام بعد تأكيد الطلب.'
     },
     companyName: 'شركة فيكي للعنبر والأحجار الكريمة البورمية المحدودة.',
     estimatorTitle: 'حاسبة السعر التقديري',
@@ -338,10 +371,25 @@ En cambio, si solicita piezas más pequeñas — por ejemplo, de 5 gramos a 15 g
     },
     pdfTitle: 'ملخص تقدير السعر',
     pdfDate: 'تاريخ التقدير',
+    pdfOrderSummaryTitle: 'ملخص الطلب حسب النوع',
+    pdfCommonTypes: 'أنواع العنبر الشائعة',
+    pdfRareTypes: 'أنواع العنبر النادرة',
+    pdfTotalWeight: 'الوزن الإجمالي',
+    pdfAvgPrice: 'متوسط السعر',
+    pdfSubtotal: 'المجموع الفرعي',
+    pdfDiscountInfoTitle: 'معلومات الخصومات والتوافر',
+    pdfEstimatedDiscount: 'الخصم التقديري',
+    pdfCommonType: '(نوع شائع)',
+    pdfRareType: '(نوع نادر)',
+    pdfEstimatedTotalAfterDiscount: 'الإجمالي التقديري بعد الخصم',
+    pdfDiscountPolicyTitle: 'سياسة الخصومات',
+    pdfDiscountPolicyContent: 'تعتمد الخصومات على الكمية ونوع/لون العنبر.\nسيتم تأكيد أسعار الخصم النهائية بعد مراجعة طلبك الكامل واختيار الأصناف.',
+    pdfAvailabilityNoteTitle: 'ملاحظة هامة بشأن التوافر',
+    pdfAvailabilityNoteContent: 'الأنواع والألوان التالية من العنبر البورمي نادرة للغاية ويصعب العثور عليها: الأحمر، والنقش الخشبي، والأسود، والميلا (نوع حليبي/شمع العسل). قد لا تتوفر كميات كبيرة منها بالكامل. ومع ذلك، سنبذل قصارى جهدنا لتوفيرها وتقديم تقرير مخزون محدث في غضون أيام قليلة بعد تقديم طلبك.',
   },
   hi: {
     title: 'बर्मा ऐंबर (बर्मी एंबर) का मोटा भाव मार्गदर्शन',
-    byline: 'द्वारा विक्की बर्मी एंबर एंड जेम्स',
+    byline: 'by Vicky Burmese Amber & Gems',
     subtitle: 'यूएसडी/ग्राम के आधार पर बर्मी एंबर का व्यापक थोक मूल्य मार्गदर्शन — रंग, समावेशन (inclusion), दुर्लभता और आकार के अनुसार। खुदरा मूल्य सामान्यतः 20–40% अधिक होते हैं।',
     introduction: `बर्मी एंबर, जिसे बर्माइट भी कहा जाता है, दुनिया के सबसे पुराने और आकर्षक प्राकृतिक एंबर में से एक है, जो 100 मिलियन साल से अधिक पहले जीवाश्मित पाइन रेजिन से बना है। प्रत्येक कच्चा पत्थर प्राचीन जंगलों की सुंदरता को संरक्षित करता है और इसके अंदर गर्मी, शुद्धता और समयहीन ऊर्जा का एहसास होता है।
 
@@ -356,6 +404,7 @@ En cambio, si solicita piezas más pequeñas — por ejemplo, de 5 gramos a 15 g
       pricing: 'मूल्य-सूची और अनुमानक',
       notes: 'टिप्पणियाँ और विवरण',
       gallery: 'गेलरी',
+      blogs: 'ब्लॉग',
     },
     fullPriceListTitle: 'पूर्ण मूल्य सूची',
     priceListInfo: {
@@ -384,7 +433,7 @@ En cambio, si solicita piezas más pequeñas — por ejemplo, de 5 gramos a 15 g
     notesData: hiNotesData,
     specialNote: {
       title: 'उपलब्धता पर महत्वपूर्ण सूचना',
-      content: 'कृपया ध्यान दें कि निम्नलिखित प्रकार और रंगों का बर्मी एंबर अत्यंत दुर्लभ और कठिनाई से मिलने वाला है: चेरी रेड, वुडन पैटर्न, ब्लैक, और मीला (दूधिया/बी वैक्स टाइप)। हम इनकी पूर्ण उपलब्धता या बड़ी मात्रा की गारंटी नहीं दे सकते, परंतु हम पूरी कोशिश करेंगे कि आपकी ऑर्डर के बाद कुछ दिनों में नवीनतम स्टॉक जानकारी उपलब्ध कराएँ।'
+      content: 'कृपया ध्यान दें कि निम्नलिखित प्रकार और रंगों का बर्मी एंबर अत्यंत दुर्लभ और कठिनाई से मिलने वाला है: गोल्डन येलो और ऑरेंज (स्वच्छ), रेड, वुडन पैटर्न, ब्लैक, और मीला (दूधिया/बी वैक्स टाइप)। हम इनकी पूर्ण उपलब्धता या बड़ी मात्रा की गारंटी नहीं दे सकते, परंतु हम पूरी कोशिश करेंगे कि आपकी ऑर्डर के बाद कुछ दिनों में नवीनतम स्टॉक जानकारी उपलब्ध कराएँ।'
     },
     companyName: 'विक्की बर्मी एंबर एंड जेम्स कंपनी लिमिटेड',
     estimatorTitle: 'मूल्य अनुमानक',
@@ -409,16 +458,33 @@ En cambio, si solicita piezas más pequeñas — por ejemplo, de 5 gramos a 15 g
     },
     pdfTitle: 'मूल्य अनुमान का सारांश',
     pdfDate: 'अनुमान की तारीख',
+    pdfOrderSummaryTitle: 'प्रकार के अनुसार आदेश सारांश',
+    pdfCommonTypes: 'सामान्य एम्बर प्रकार',
+    pdfRareTypes: 'दुर्लभ एम्बर प्रकार',
+    pdfTotalWeight: 'कुल वज़न',
+    pdfAvgPrice: 'औसत मूल्य',
+    pdfSubtotal: 'उप-योग',
+    pdfDiscountInfoTitle: 'छूट और उपलब्धता की जानकारी',
+    pdfEstimatedDiscount: 'अनुमानित छूट',
+    pdfCommonType: '(सामान्य प्रकार)',
+    pdfRareType: '(दुर्लभ प्रकार)',
+    pdfEstimatedTotalAfterDiscount: 'छूट के बाद अनुमानित कुल',
+    pdfDiscountPolicyTitle: 'छूट नीति',
+    pdfDiscountPolicyContent: 'छूट मात्रा और एम्बर के रंग/प्रकार पर निर्भर करती है।\nआपके पूर्ण आदेश और आइटम चयन की समीक्षा के बाद अंतिम छूट दरों की पुष्टि की जाएगी।',
+    pdfAvailabilityNoteTitle: 'उपलब्धता पर महत्वपूर्ण नोट',
+    pdfAvailabilityNoteContent: 'निम्नलिखित बर्मी एम्बर प्रकार और रंग अत्यंत दुर्लभ हैं और इन्हें खोजना मुश्किल है: लाल, वुडन पैटर्न, ब्लैक, और मिला (मिल्की/बी वैक्स टाइप)। इनकी बड़ी मात्रा पूरी तरह से उपलब्ध नहीं हो सकती है। हालांकि, हम उन्हें स्रोत बनाने और आपके आदेश देने के कुछ दिनों के भीतर एक अद्यतन स्टॉक रिपोर्ट प्रदान करने के लिए हर संभव प्रयास करेंगे।',
   },
   th: {
     title: 'คู่มือราคาก้อนอำพันดิบพม่า',
-    byline: 'โดย วิคกี้ เบอร์มีส แอมเบอร์ แอนด์ เจมส์',
+    byline: 'by Vicky Burmese Amber & Gems',
     subtitle: 'คู่มือราคาขายส่งอำพันพม่าแบบละเอียด (USD/กรัม) แบ่งตามสี, การมีสิ่งเจือปน, ความหายาก และขนาด แต่ราคาขายปลีกอาจสูงขึ้น 20–40%',
-    introduction: `อำพันพม่า หรือที่รู้จักในชื่อ Burmite เป็นหนึ่งในอำพันธรรมชาติที่เก่าแก่ที่สุดและน่าหลงใหلที่สุดในโลก เกิดจากเรซินสนที่กลายเป็นฟอสซิลมากกว่า 100 ล้านปี ทุกก้อนอำพันดิบคงความงดงามของป่าก่อนประวัติศาสตร์ พร้อมพลังแห่งความอบอุ่น ความบริสุทธิ์ และพลังงานเหนือกาลเวลา
+    introduction: `อำพันพม่า หรือที่รู้จักในชื่อ Burmite เป็นหนึ่งในอำพันธรรมชาติที่เก่าแก่ที่สุดและน่าหลงใหلที่สุดในโลก เกิดจากยางสนที่กลายเป็นฟอสซิลมากกว่า 100 ล้านปี ทุกก้อนอำพันดิบล้วนเก็บรักษาเศษซากความงดงามของป่าดึกดำบรรพ์ไว้ภายใน พร้อมด้วยพลังแห่งความอบอุ่น ความบริสุทธิ์ และพลังงานเหนือกาลเวลา
 
-นักสะสมและช่างฝีมือให้ความสำคัญกับอำพันดิบเพราะรูปทรงธรรมชาติ ความแท้จริง และโอกาสสร้างสรรค์ชิ้นงานที่ไม่ซ้ำใคร แม้ว่าอำพันดิบจะมีเสน่ห์และราคาย่อมเยา แต่หลายคนก็เลือกอำพัน ที่ตัดและขัดเงา เพื่อความใสที่ชัดเจนขึ้น สีที่สวยงามขึ้น และความเงางามยาวนาน อำพันขัดเงามักเผยความงดงามภายในของก้อน เช่น สิ่งเจือปนโบราณหรือสีสันสดใสที่บางครั้งไม่สามารถบอกสีได้ 100% ในอำพันก้อนดิบ
+นักสะสมและช่างฝีมือให้คุณค่ากับอำพันก้อนดิบเพราะความที่มีรูปทรงหลากหลาย มีความเป็นธรรมชาติอย่างแท้จริงที่ไร้การปรุงแต่ง และศักยภาพในการสร้างสรรค์ชิ้นงานที่ไม่เหมือนใคร แม้อำพันดิบจะมีเสน่ห์เฉพาะตัวและราคาที่เข้าถึงได้ แต่นักสะสมหลายท่านก็เลือกอำพันที่ผ่านการเจียระไนและขัดเงาเพื่อความใสที่ชัดเจนยิ่งขึ้น เผยให้เห็นเฉดสีที่สวยงามสมบูรณ์ และความเงางามที่คงทนยาวนาน
 
-แม้ว่าราคาจะสูงกว่าสองถึงสามเท่า แต่ชิ้นงานที่ผ่านการขัดเงาพร้อมสำหรับจัดแสดงหรือทำเครื่องประดับ และมักมีมูลค่าซื้อขายและสะสมสูงขึ้นเมื่อเวลาผ่านไป สำหรับผู้ที่ต้องการความเป็นธรรมชาติและการนำเสนอที่งดงาม อำพันพม่าแบบขัดเงาจึงให้สมดุลที่เหมาะสมระหว่างความหายาก ความงดงาม และโอกาสลงทุน`,
+อำพันขัดเงามักเผยให้เห็นความงามที่ซ่อนอยู่ภายใน เช่น ซากสิ่งมีชีวิตโบราณที่ถูกห่อหุ้มไว้ หรือเฉดสีที่เข้มข้นสดใส ซึ่งบางครั้งไม่สามารถมองเห็นได้ชัดเจนในสภาพก้อนดิบ แม้ว่าราคาจะสูงกว่า 2-3 เท่า แต่ชิ้นงานที่ขัดเงาแล้วก็พร้อมใช้งานทันที ไม่ว่าจะเป็นการจัดแสดงหรือประดับเป็นเครื่องประดับ และมักมีมูลค่าในการซื้อขายต่อและคุณค่าสะสมที่แข็งแกร่งกว่าเมื่อเวลาผ่านไป
+
+สำหรับผู้ที่ต้องการทั้งความเป็นธรรมชาติและการนำเสนอที่สวยงามประณีต อำพันพม่าแบบขัดเงาจึงเป็นตัวเลือกที่ให้ความสมดุลอันลงตัวระหว่างความหายาก ความงดงาม และศักยภาพในการลงทุน`,
     metaTitle: 'คู่มือราคาอำพันพม่า | อำพันแท้จากพม่า | Vicky Amber',
     metaDescription: 'ค้นพบราคาขายส่งอำพันพม่าแท้, อัตราล่าสุดปี 2025, และคุณค่าทางจิตวิญญาณ. อำพันธรรมชาติ 100% ไม่ผ่านการปรับปรุงคุณภาพ ส่งตรงจากเหมืองในพม่า.',
     metaKeywords: 'อำพันพม่า, ราคาอำพัน, Burmite, อำพันดิบ, อัญมณีพม่า, ราคาอัญมณี, อัญมณีขายส่ง, วิกกี้อำพัน',
@@ -427,11 +493,17 @@ En cambio, si solicita piezas más pequeñas — por ejemplo, de 5 gramos a 15 g
         pricing: 'การกำหนดราคาและตัวช่วยคำนวณ',
         notes: 'หมายเหตุ & รายละเอียด',
         gallery: 'แกลเลอรี่',
+        blogs: 'บทความ',
     },
     fullPriceListTitle: 'รายการราคาฉบับเต็ม',
     priceListInfo: {
         title: 'การทำความเข้าใจราคา/กรัม',
-        content: `โปรดทราบว่าราคาที่แสดงในแต่ละช่วงน้ำหนักหมายถึง ขนาดโดยประมาณของแต่ละก้อน, ไม่ใช่น้ำหนักรวมทั้งหมด\n\n* ตัวอย่าง: หากคุณต้องการก้อนใหญ่ น้ำหนัก 500–2,000 กรัมต่อก้อน ราคาต่อกรัมจะสูงกว่าก้อนเล็ก เนื่องจากหาก้อนใหญ่เช่นนี้ค่อนข้างยาก\n\n* ในทางกลับกัน หากสั่งก้อนเล็ก เช่น 5–15 กรัมต่อก้อน รวมทั้งหมด 3,000 กรัม สี Dark Cognac ราคาจะอยู่ที่เพียง 1.2–1.7 USD/กรัม และยังไม่รวมส่วนลดสูงสุด 25% สำหรับการสั่งรวม 5,000 กรัมขึ้นไป`,
+        content: `
+โปรดทราบว่าราคาที่แสดงในแต่ละช่วงน้ำหนักหมายถึง ขนาดโดยประมาณของแต่ละก้อน, ไม่ใช่น้ำหนักรวมทั้งหมด
+
+* ตัวอย่าง: หากคุณต้องการก้อนใหญ่ น้ำหนัก 500–2,000 กรัมต่อก้อน ราคาต่อกรัมจะสูงกว่าก้อนเล็ก เนื่องจากหาก้อนใหญ่เช่นนี้ค่อนข้างยาก
+
+* ในทางกลับกัน หากสั่งก้อนเล็ก เช่น 5–15 กรัมต่อก้อน รวมทั้งหมด 3,000 กรัม สี Dark Cognac ราคาจะอยู่ที่เพียง 1.2–1.7 USD/กรัม และยังไม่รวมส่วนลดสูงสุด 25% สำหรับการสั่งรวม 5,000 กรัมขึ้นไป`,
     },
     tableHeaders: [
         { key: 'imageUrl', label: 'รูป' },
@@ -449,7 +521,7 @@ En cambio, si solicita piezas más pequeñas — por ejemplo, de 5 gramos a 15 g
     notesData: thNotesData,
     specialNote: {
         title: 'หมายเหตุเรื่องความพร้อมของสินค้า',
-        content: 'อำพันบางสี/ประเภทหายากมาก เช่น Cherry Red, ลายไม้, ดำ, Mila (Milky/Bee Wax Type) ไม่สามารถรับประกันการมีสินค้าจำนวนมากหรือขนาดใหญ่ แต่เราจะพยายามจัดหาและแจ้งอัพเดตรายการภายในไม่กี่วันหลังสั่งซื้อ',
+        content: 'อำพันบางสี/ประเภทหายากมาก เช่น สีเหลืองทองและสีส้ม (สะอาด), สีแดง, ลายไม้, ดำ, และ Mila (Milky/Bee Wax Type) ไม่สามารถรับประกันการมีสินค้าจำนวนมากหรือขนาดใหญ่ แต่เราจะพยายามจัดหาและแจ้งอัพเดตรายการภายในไม่กี่วันหลังสั่งซื้อ',
     },
     companyName: 'VICKY BURMESE AMBER & GEMS CO., LTD.',
     estimatorTitle: 'ตัวช่วยคำนวณราคา',
@@ -463,16 +535,31 @@ En cambio, si solicita piezas más pequeñas — por ejemplo, de 5 gramos a 15 g
     },
     addRowButton: 'เพิ่มรายการ',
     resetButton: 'รีเซ็ตทั้งหมด',
-    downloadButton: 'ดาวน์โหลดใบประมาณราคา (PDF)',
+    downloadButton: 'ดาวน์โหลดใบประเมินราคา (PDF)',
     grandTotalLabel: 'ยอดรวมทั้งหมด',
     selectTypePlaceholder: 'เลือกประเภท/สีอำพัน',
     selectSizePlaceholder: 'เลือกขนาด',
-    estimatorNote: 'หมายเหตุ: ราคาที่แสดงรวมค่าภาษีนำเข้าและค่าจัดส่งจากพม่าไปไทย แต่ยังไม่รวมค่าขนส่งปลายทาง, ตรวจสอบศุลกากร, หรือภาษี/ค่าใช้จ่ายท้องถิ่นที่อาจเกิดขึ้น ผู้ซื้อเป็นผู้รับผิดชอบค่าธรรมเนียมนำเข้าใดๆ',
+    estimatorNote: 'หมายเหตุ: ราคาที่แสดงรวมค่าภาษีนำเข้าและค่าจัดส่งจากพม่ามายังไทย แต่ยังไม่รวมค่าขนส่งปลายทาง, ตรวจสอบศุลกากร, หรือภาษี/ค่าใช้จ่ายที่อาจเกิดขึ้นยังปลายทางประเทศผู้ซื้อ ผู้ซื้อเป็นผู้รับผิดชอบค่าธรรมเนียมนำเข้าใดๆที่อาจเกิดขึ้น',
     estimatorRemark: {
         title: '💬 หมายเหตุเพิ่มเติม',
         content: `ราคายังไม่รวมส่วนลด\nส่วนลดขึ้นอยู่กับปริมาณและสี/ประเภทอำพัน:\n\n• สี/ประเภททั่วไป: 10–25%\n• สี/ประเภทหายาก: 5–15%\n\nอัตราส่วนลดสุดท้ายจะยืนยันหลังตรวจสอบรายการและปริมาณ`,
     },
     pdfTitle: 'ใบสรุปประมาณราคา',
     pdfDate: 'วันที่ประมาณราคา',
+    pdfOrderSummaryTitle: 'สรุปรายการสั่งซื้อตามประเภท',
+    pdfCommonTypes: 'อำพันประเภททั่วไป',
+    pdfRareTypes: 'อำพันประเภทหายาก',
+    pdfTotalWeight: 'น้ำหนักรวม',
+    pdfAvgPrice: 'ราคาเฉลี่ย',
+    pdfSubtotal: 'ยอดรวม',
+    pdfDiscountInfoTitle: 'ข้อมูลส่วนลดและความพร้อมของสินค้า',
+    pdfEstimatedDiscount: 'ส่วนลดโดยประมาณ',
+    pdfCommonType: '(ประเภททั่วไป)',
+    pdfRareType: '(ประเภทหายาก)',
+    pdfEstimatedTotalAfterDiscount: 'ยอดรวมหลังหักส่วนลดโดยประมาณ',
+    pdfDiscountPolicyTitle: 'นโยบายส่วนลด',
+    pdfDiscountPolicyContent: 'ส่วนลดขึ้นอยู่กับปริมาณและสี/ประเภทของอำพัน\nอัตราส่วนลดสุดท้ายจะได้รับการยืนยันหลังจากตรวจสอบรายการสั่งซื้อทั้งหมดของคุณ',
+    pdfAvailabilityNoteTitle: 'หมายเหตุสำคัญเกี่ยวกับความพร้อมของสินค้า',
+    pdfAvailabilityNoteContent: 'อำพันพม่าประเภทและสีต่อไปนี้หายากมาก: สีแดง, ลายไม้, สีดำ, และ Mila (Milky/Bee Wax Type) อาจไม่มีปริมาณมากพอตามที่ต้องการ อย่างไรก็ตาม เราจะพยายามอย่างเต็มที่ในการจัดหาและจะแจ้งข้อมูลสต็อกล่าสุดภายในสองสามวันหลังจากทำการสั่งซื้อ',
   }
 };

@@ -41,10 +41,18 @@
         background-image: url('https://raw.githubusercontent.com/devoncasa/VickyLuxGems-Assets/main/roughamber/rough-amber-bg.webp');
         background-size: cover;
         background-position: center;
+        background-attachment: fixed;
       }
       @media (max-width: 1024px) {
         #app-background {
           background-image: url('https://raw.githubusercontent.com/devoncasa/VickyLuxGems-Assets/main/roughamber/rough-amber-mbbg.webp');
+        }
+        /* Add a white overlay for mobile/tablet to fade the background */
+        #app-background::before {
+          content: "";
+          position: absolute;
+          inset: 0;
+          background-color: rgba(255, 255, 255, 0.20);
         }
       }
     </style>
@@ -59,6 +67,7 @@
 </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.2/dist/chart.umd.min.js"></script>
   <link rel="stylesheet" href="/index.css">
 </head>
   <body>

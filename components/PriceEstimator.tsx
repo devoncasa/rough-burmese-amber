@@ -1,10 +1,11 @@
 import React, { useState, useMemo, useRef } from 'react';
 import type { LanguageContent } from '../types';
 
-// Add type definition for the jsPDF library loaded from CDN
+// Add type definition for the jsPDF and Chart.js libraries loaded from CDN
 declare global {
   interface Window {
     jspdf: any;
+    Chart: any;
   }
 }
 
@@ -23,6 +24,20 @@ interface PriceEstimatorProps {
   language: 'en' | 'es' | 'ar' | 'hi' | 'th';
 }
 
+// Helper to format numbers as USD currency, ensuring two decimal places.
+const formatCurrency = (value: number): string => {
+  if (isNaN(value)) {
+    value = 0;
+  }
+  return new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'USD',
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  }).format(value);
+};
+
+
 // Helper to parse price ranges like "1.0-1.5" into an average number
 const parsePrice = (priceRange: string): number => {
   if (!priceRange || typeof priceRange !== 'string') return 0;
@@ -31,6 +46,15 @@ const parsePrice = (priceRange: string): number => {
   const avg = (parts[0] + parts[1]) / 2;
   return isNaN(avg) ? 0 : avg;
 };
+
+const RARE_AMBER_TYPES = [
+  'Pigeon Blood Red to Cherry Red',
+  'Wood Pattern Amber',
+  'Black Amber (Brownish Visible)',
+  'Black Amber (Solid Dark)',
+  'Mila Amber (Bee Wax-like, Partial)',
+  'Mila Amber (Pure Milky / Bee Wax Type)',
+];
 
 
 const PriceEstimator: React.FC<PriceEstimatorProps> = ({ content, language }) => {
@@ -211,7 +235,7 @@ const PriceEstimator: React.FC<PriceEstimatorProps> = ({ content, language }) =>
             sizeLabel,
             `$${row.pricePerGram.toFixed(2)}`,
             `${row.quantity} g`,
-            `$${row.total.toFixed(2)}`
+            formatCurrency(row.total)
           ];
       });
 
@@ -237,14 +261,13 @@ const PriceEstimator: React.FC<PriceEstimatorProps> = ({ content, language }) =>
           5: { halign: 'right', fontStyle: 'bold' },
       };
 
-      // Correctly mirrored styles for RTL layout after reversing column order
       const columnStylesRtl = {
-          0: { halign: 'left', fontStyle: 'bold' }, // Corresponds to original 'total' column
-          1: { halign: 'center' }, // Corresponds to original 'quantity' column
-          2: { halign: 'center' }, // Corresponds to original 'pricePerGram' column
-          3: { halign: 'right' },  // Corresponds to original 'size' column
-          4: { halign: 'right' },  // Corresponds to original 'inclusion' column
-          5: { cellWidth: 45, halign: 'right'}, // Corresponds to original 'item' column
+          0: { halign: 'left', fontStyle: 'bold' }, 
+          1: { halign: 'center' }, 
+          2: { halign: 'center' }, 
+          3: { halign: 'right' },  
+          4: { halign: 'right' }, 
+          5: { cellWidth: 45, halign: 'right'}, 
       };
       
       let finalColumnStyles: { [key: number]: { cellWidth?: number; halign: string; fontStyle?: string; } } = columnStylesLtr;
@@ -268,25 +291,230 @@ const PriceEstimator: React.FC<PriceEstimatorProps> = ({ content, language }) =>
           columnStyles: finalColumnStyles,
       });
 
-      const finalY = doc.autoTable.previous.finalY;
+      let finalY = doc.autoTable.previous.finalY;
       const pageWidth = doc.internal.pageSize.getWidth();
+      const pageHeight = doc.internal.pageSize.getHeight();
+      let pdfCursorY = finalY;
+
+      const checkPageBreak = (currentY: number, requiredSpace: number = 20) => {
+        if (currentY + requiredSpace > pageHeight - 20) {
+            doc.addPage();
+            return 20; // New Y position on new page
+        }
+        return currentY;
+      };
+
+      // ---- START of Order Summary Section ----
+      const commonItems = validRows.filter(row => !RARE_AMBER_TYPES.includes(row.selectedTypeColor));
+      const rareItems = validRows.filter(row => RARE_AMBER_TYPES.includes(row.selectedTypeColor));
+
+      const calculateCategorySummary = (items: typeof validRows) => {
+          const totalWeight = items.reduce((sum, item) => sum + parseFloat(String(item.quantity)), 0);
+          const subtotal = items.reduce((sum, item) => sum + item.total, 0);
+          const avgPrice = totalWeight > 0 ? subtotal / totalWeight : 0;
+          return { totalWeight, subtotal, avgPrice };
+      };
+
+      const commonSummary = calculateCategorySummary(commonItems);
+      const rareSummary = calculateCategorySummary(rareItems);
+      
+      let chartImage = '';
+      if (window.Chart && (commonSummary.totalWeight > 0 || rareSummary.totalWeight > 0)) {
+          const canvas = document.createElement('canvas');
+          canvas.width = 300;
+          canvas.height = 300;
+          
+          new window.Chart(canvas.getContext('2d'), {
+              type: 'pie',
+              data: {
+                  labels: [content.pdfCommonTypes, content.pdfRareTypes],
+                  datasets: [{
+                      data: [commonSummary.totalWeight, rareSummary.totalWeight],
+                      backgroundColor: ['#f59e0b', '#dc2626'], // amber-500, red-600
+                      borderColor: '#ffffff',
+                      borderWidth: 2,
+                  }]
+              },
+              options: {
+                  responsive: false,
+                  animation: { duration: 0 },
+                  plugins: {
+                      legend: { 
+                        position: 'bottom', 
+                        labels: { 
+                          font: { size: 12, family: 'helvetica' }, 
+                          boxWidth: 15,
+                          padding: 15
+                        }
+                      },
+                      tooltip: { enabled: false }
+                  }
+              }
+          });
+          chartImage = canvas.toDataURL('image/png');
+      }
+
+
+      if (commonSummary.totalWeight > 0 || rareSummary.totalWeight > 0) {
+          pdfCursorY = checkPageBreak(pdfCursorY, 80);
+          pdfCursorY += 15;
+
+          doc.setFontSize(14);
+          doc.setFont(pdfFont, 'bold');
+          doc.text(content.pdfOrderSummaryTitle, pageWidth / 2, pdfCursorY, { align: 'center' });
+          pdfCursorY += 10;
+          
+          const summaryStartY = pdfCursorY;
+          const textX = isRtl ? pageWidth - 15 : 15;
+          const align = isRtl ? 'right' : 'left';
+          let textCursorY = summaryStartY;
+
+          const chartSize = 40;
+          const chartX = isRtl ? 15 : pageWidth - 15 - chartSize;
+          if (chartImage && rareSummary.totalWeight > 0 && commonSummary.totalWeight > 0) {
+              doc.addImage(chartImage, 'PNG', chartX, summaryStartY - 5, chartSize, chartSize);
+          }
+
+
+          const drawSummaryBlock = (title: string, summary: ReturnType<typeof calculateCategorySummary>) => {
+              doc.setFontSize(11);
+              doc.setFont(pdfFont, 'bold');
+              doc.text(title, textX, textCursorY, { align });
+              textCursorY += 6;
+              doc.setFontSize(10);
+              doc.setFont(pdfFont, 'normal');
+              doc.text(`${content.pdfTotalWeight}: ${summary.totalWeight.toLocaleString()} grams`, textX, textCursorY, { align });
+              textCursorY += 6;
+              doc.text(`${content.pdfAvgPrice}: ${formatCurrency(summary.avgPrice)} / gram`, textX, textCursorY, { align });
+              textCursorY += 6;
+              doc.setFont(pdfFont, 'bold');
+              doc.text(`${content.pdfSubtotal}: ${formatCurrency(summary.subtotal)}`, textX, textCursorY, { align });
+              textCursorY += 10;
+          };
+
+          if (commonSummary.totalWeight > 0) {
+              drawSummaryBlock(content.pdfCommonTypes, commonSummary);
+          }
+          if (rareSummary.totalWeight > 0) {
+              drawSummaryBlock(content.pdfRareTypes, rareSummary);
+          }
+          pdfCursorY = textCursorY;
+      }
+      
+      pdfCursorY = checkPageBreak(pdfCursorY, 30);
+
+      // Grand Total
+      doc.setDrawColor(209, 213, 219);
+      doc.line(15, pdfCursorY - 5, pageWidth - 15, pdfCursorY - 5);
       doc.setFontSize(14);
       doc.setFont(pdfFont, 'bold');
-      
-      const grandTotalText = `${content.grandTotalLabel}: $${calculations.grandTotal.toFixed(2)}`;
+      const grandTotalText = `${content.grandTotalLabel}: ${formatCurrency(calculations.grandTotal)}`;
       const grandTotalX = isRtl ? 15 : pageWidth - 15;
       const grandTotalAlign = isRtl ? 'left' : 'right';
-      doc.text(grandTotalText, grandTotalX, finalY + 15, { align: grandTotalAlign });
+      doc.text(grandTotalText, grandTotalX, pdfCursorY, { align: grandTotalAlign });
+      pdfCursorY += 10;
+      
+      // ---- START of Discount & Availability Section ----
+      doc.setDrawColor(209, 213, 219); 
+      doc.line(15, pdfCursorY, pageWidth - 15, pdfCursorY);
+      pdfCursorY += 10;
+      
+      // Section Title
+      doc.setFontSize(12);
+      doc.setFont(pdfFont, 'bold');
+      doc.setTextColor(0);
+      const sectionTitleX = isRtl ? pageWidth - 15 : 15;
+      const sectionTitleAlign = isRtl ? 'right' : 'left';
+      doc.text(content.pdfDiscountInfoTitle, sectionTitleX, pdfCursorY, { align: sectionTitleAlign });
+      pdfCursorY += 10;
+      
+      // Discount Calculation Logic
+      const grandTotal = calculations.grandTotal;
+      const discountedTotalHigh = grandTotal - (commonSummary.subtotal * 0.10 + rareSummary.subtotal * 0.05);
+      const discountedTotalLow = grandTotal - (commonSummary.subtotal * 0.25 + rareSummary.subtotal * 0.15);
+      
+      const labelX = isRtl ? pageWidth - 15 : 15;
+      const valueX = isRtl ? pageWidth - 90 : 90;
+      const alignLeft = isRtl ? 'right' : 'left';
+      
+      doc.setFontSize(10);
+      
+      doc.setFont(pdfFont, 'normal');
+      doc.setTextColor(87, 83, 78);
+      doc.text(content.pdfEstimatedDiscount + ':', labelX, pdfCursorY, { align: alignLeft });
+      
+      doc.setFont(pdfFont, 'bold');
+      let discountTextY = pdfCursorY;
+      if (commonSummary.totalWeight > 0) {
+          doc.text(`- ${content.pdfCommonTypes}: 10–25%`, valueX, discountTextY, { align: alignLeft });
+          discountTextY += 6;
+      }
+      if (rareSummary.totalWeight > 0) {
+          doc.text(`- ${content.pdfRareTypes}: 5–15%`, valueX, discountTextY, { align: alignLeft });
+          discountTextY += 6;
+      }
+      pdfCursorY = discountTextY;
+      
+      doc.setFont(pdfFont, 'normal');
+      doc.text(content.pdfEstimatedTotalAfterDiscount + ':', labelX, pdfCursorY, { align: alignLeft });
+      doc.setFont(pdfFont, 'bold');
+      doc.setTextColor(34, 139, 34); // ForestGreen for emphasis
+      doc.text(`${formatCurrency(discountedTotalLow)} – ${formatCurrency(discountedTotalHigh)}`, valueX, pdfCursorY, { align: alignLeft });
+      pdfCursorY += 12;
+      
+      pdfCursorY = checkPageBreak(pdfCursorY, 40);
 
+      // Discount Policy
+      doc.setFontSize(10);
+      doc.setFont(pdfFont, 'bold');
+      doc.setTextColor(0);
+      doc.text(content.pdfDiscountPolicyTitle, labelX, pdfCursorY, { align: alignLeft });
+      pdfCursorY += 6;
+      
       doc.setFontSize(8);
       doc.setFont(pdfFont, 'normal');
       doc.setTextColor(100);
+      const policyText = doc.splitTextToSize(content.pdfDiscountPolicyContent, pageWidth - 30);
+      doc.text(policyText, labelX, pdfCursorY, { align: alignLeft });
+      pdfCursorY += doc.getTextDimensions(policyText).h + 8;
       
-      const noteText = content.estimatorNote;
-      const splitText = doc.splitTextToSize(noteText, 180);
-      const noteX = isRtl ? pageWidth - 15 : 15;
-      const noteAlign = isRtl ? 'right' : 'left';
-      doc.text(splitText, noteX, finalY + 30, { align: noteAlign });
+      pdfCursorY = checkPageBreak(pdfCursorY, 45);
+
+      // Availability Note
+      doc.setFontSize(10);
+      doc.setFont(pdfFont, 'bold');
+      doc.setTextColor(0);
+      doc.text(content.pdfAvailabilityNoteTitle, labelX, pdfCursorY, { align: alignLeft });
+      pdfCursorY += 6;
+      
+      doc.setFontSize(8);
+      doc.setFont(pdfFont, 'normal');
+      doc.setTextColor(100);
+      const availabilityText = doc.splitTextToSize(content.pdfAvailabilityNoteContent, pageWidth - 30);
+      doc.text(availabilityText, labelX, pdfCursorY, { align: alignLeft });
+      pdfCursorY += doc.getTextDimensions(availabilityText).h + 15;
+      
+      pdfCursorY = checkPageBreak(pdfCursorY, 60);
+
+      // Footer contact info
+      doc.setFontSize(9);
+      doc.setFont(pdfFont, 'bold');
+      doc.setTextColor(0);
+      doc.text(content.companyName, labelX, pdfCursorY, { align: alignLeft });
+      pdfCursorY += 5;
+
+      doc.setFont(pdfFont, 'normal');
+      doc.setFontSize(8);
+      const address = "919/1 JEWELRY TRADE CENTER BUILDING, SILOM 19, SILOM RD., BANGRAK, BANGKOK 10500, THAILAND";
+      const addressLines = doc.splitTextToSize(address, 180);
+      doc.text(addressLines, labelX, pdfCursorY, { align: alignLeft });
+      pdfCursorY += (addressLines.length * 3.5) + 2;
+
+      doc.text("WhatsApp/Tel: +66(0)81 851 9922, +66(0)63 195 9922", labelX, pdfCursorY, { align: alignLeft });
+      pdfCursorY += 4;
+      doc.text("Email: info.vkamber@gmail.com", labelX, pdfCursorY, { align: alignLeft });
+      pdfCursorY += 4;
+      doc.text("Official Website: www.vickyamber.com", labelX, pdfCursorY, { align: alignLeft });
       
       const pageCount = doc.internal.getNumberOfPages();
       for (let i = 1; i <= pageCount; i++) {
@@ -407,7 +635,7 @@ const PriceEstimator: React.FC<PriceEstimatorProps> = ({ content, language }) =>
                   />
                 </td>
                 <td className="p-2 align-top text-right rtl:text-left font-bold text-amber-900 text-sm">
-                  ${row.total.toFixed(2)}
+                  {formatCurrency(row.total)}
                 </td>
                 <td className="p-2 align-top text-center">
                     {index > 0 && (
@@ -444,7 +672,7 @@ const PriceEstimator: React.FC<PriceEstimatorProps> = ({ content, language }) =>
         </button>
       </div>
 
-      <div className="mt-6 p-3 bg-stone-100/70 border border-stone-200 rounded-lg text-xs text-stone-600 flex items-start gap-2">
+      <div className="mt-6 p-3 bg-stone-100/70 border border-stone-200 rounded-lg text-base text-stone-600 flex items-start gap-2">
         <div className="flex-shrink-0">
           <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-stone-500" viewBox="http://www.w3.org/2000/svg" fill="currentColor">
             <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 002 0v-3a1 1 0 00-2 0z" clipRule="evenodd" />
@@ -463,7 +691,7 @@ const PriceEstimator: React.FC<PriceEstimatorProps> = ({ content, language }) =>
         <div className="text-right rtl:text-left bg-amber-50/70 p-4 rounded-lg">
           <span className="text-md font-semibold text-stone-600">{content.grandTotalLabel}:</span>
           <span className="text-2xl font-bold text-amber-900 ml-0.5 rtl:ml-0 rtl:mr-0.5">
-            ${calculations.grandTotal.toFixed(2)}
+            {formatCurrency(calculations.grandTotal)}
           </span>
         </div>
       </div>

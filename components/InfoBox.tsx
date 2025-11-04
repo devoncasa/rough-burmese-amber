@@ -19,8 +19,8 @@ const InfoBox: React.FC<InfoBoxProps> = ({ note }) => {
           </svg>
         </div>
         <div>
-          <p className="font-bold text-sky-900">{note.title}</p>
-          <p className="text-sm text-sky-800 whitespace-pre-line">{note.content}</p>
+          <p className="font-bold text-sky-900 text-xl">{note.title}</p>
+          <p className="text-lg text-sky-800 whitespace-pre-line">{note.content}</p>
         </div>
       </div>
     </div>

@@ -160,23 +160,38 @@ const App: React.FC = () => {
     <nav className="sticky top-0 z-30 bg-stone-100/80 backdrop-blur-md shadow-sm mb-8 md:mb-12 print:hidden">
       <div className="container mx-auto">
         <div className="flex justify-center items-center border-b border-amber-200/70" role="tablist" aria-label="Content sections">
-          {Object.entries(content.tabLabels).map(([key, label]) => (
-            <button
-              key={key}
-              id={`tab-${key}`}
-              role="tab"
-              aria-selected={activeTab === key}
-              aria-controls={`${key}-section`}
-              onClick={() => handleTabClick(key as TabKey)}
-              className={`px-4 py-3 md:px-6 md:py-4 text-sm md:text-base font-semibold border-b-2 transition-all duration-300 ease-in-out transform hover:-translate-y-0.5 focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-400 focus-visible:ring-opacity-50 ${
-                activeTab === key
-                  ? 'border-amber-700 text-amber-900'
-                  : 'border-transparent text-stone-600 hover:text-amber-800 hover:border-amber-300'
-              }`}
-            >
-              {label}
-            </button>
-          ))}
+          {Object.entries(content.tabLabels).map(([key, label]) => {
+            if (key === 'blogs') {
+              return (
+                <a
+                  key={key}
+                  href="https://www.vickyamber.com/blogs"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="px-3 py-3 md:px-6 md:py-4 text-xs md:text-base font-semibold border-b-2 transition-all duration-300 ease-in-out transform hover:-translate-y-0.5 focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-400 focus-visible:ring-opacity-50 border-transparent text-stone-600 hover:text-amber-800 hover:border-amber-300"
+                >
+                  {label}
+                </a>
+              );
+            }
+            return (
+              <button
+                key={key}
+                id={`tab-${key}`}
+                role="tab"
+                aria-selected={activeTab === key}
+                aria-controls={`${key}-section`}
+                onClick={() => handleTabClick(key as TabKey)}
+                className={`px-3 py-3 md:px-6 md:py-4 text-xs md:text-base font-semibold border-b-2 transition-all duration-300 ease-in-out transform hover:-translate-y-0.5 focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-400 focus-visible:ring-opacity-50 ${
+                  activeTab === key
+                    ? 'border-amber-700 text-amber-900'
+                    : 'border-transparent text-stone-600 hover:text-amber-800 hover:border-amber-300'
+                }`}
+              >
+                {label}
+              </button>
+            );
+          })}
         </div>
       </div>
     </nav>

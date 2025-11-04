@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 
 interface ImageGalleryProps {
   images: string[];
@@ -7,6 +7,7 @@ interface ImageGalleryProps {
 
 const ImageGallery: React.FC<ImageGalleryProps> = ({ images, isMainGallery = false }) => {
   const [selectedImageIndex, setSelectedImageIndex] = useState<number | null>(null);
+  const touchStartX = useRef<number>(0);
 
   const showNextImage = useCallback(() => {
     if (selectedImageIndex !== null) {
@@ -44,6 +45,25 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({ images, isMainGallery = fal
     };
   }, [selectedImageIndex, showNextImage, showPrevImage]);
 
+  const handleTouchStart = (e: React.TouchEvent) => {
+    touchStartX.current = e.touches[0].clientX;
+  };
+
+  const handleTouchEnd = (e: React.TouchEvent) => {
+    if (touchStartX.current === 0) return;
+
+    const touchEndX = e.changedTouches[0].clientX;
+    const deltaX = touchEndX - touchStartX.current;
+    const swipeThreshold = 50; // Minimum distance for a swipe
+
+    if (deltaX > swipeThreshold) {
+      showPrevImage();
+    } else if (deltaX < -swipeThreshold) {
+      showNextImage();
+    }
+
+    touchStartX.current = 0; // Reset for the next touch
+  };
 
   const ThumbnailLayout = isMainGallery ? (
     <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 gap-2 sm:gap-4">
@@ -92,11 +112,13 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({ images, isMainGallery = fal
 
       {selectedImageIndex !== null && (
         <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm transition-opacity duration-300 animate-fadeIn cursor-zoom-out"
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm cursor-zoom-out animate-fadeInAndZoom"
           onClick={() => setSelectedImageIndex(null)}
           role="dialog"
           aria-modal="true"
           aria-label="Image viewer"
+          onTouchStart={handleTouchStart}
+          onTouchEnd={handleTouchEnd}
         >
           <button
             onClick={(e) => {
@@ -126,7 +148,7 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({ images, isMainGallery = fal
             <img
               src={images[selectedImageIndex]}
               alt={`Enlarged view of Burmese amber specimen ${selectedImageIndex + 1}`}
-              className="max-w-[95vw] max-h-[95vh] object-contain rounded-lg shadow-2xl"
+              className="max-w-[98vw] max-h-[98vh] object-contain rounded-lg shadow-2xl"
               loading="lazy"
             />
           </div>
@@ -144,12 +166,18 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({ images, isMainGallery = fal
         </div>
       )}
       <style>{`
-        @keyframes fadeIn {
-          from { opacity: 0; }
-          to { opacity: 1; }
+        @keyframes fadeInAndZoom {
+          from { 
+            opacity: 0; 
+            transform: scale(0.9);
+          }
+          to { 
+            opacity: 1;
+            transform: scale(1);
+          }
         }
-        .animate-fadeIn {
-          animation: fadeIn 0.3s ease-out forwards;
+        .animate-fadeInAndZoom {
+          animation: fadeInAndZoom 0.3s ease-out forwards;
         }
       `}</style>
     </>
