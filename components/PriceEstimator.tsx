@@ -21,7 +21,7 @@ interface EstimationRow {
 
 interface PriceEstimatorProps {
   content: LanguageContent;
-  language: 'en' | 'es' | 'ar' | 'hi' | 'th';
+  language: 'en' | 'es' | 'ar' | 'hi' | 'th' | 'zh' | 'nl' | 'ja' | 'fr' | 'vi';
 }
 
 // Helper to format numbers as USD currency, ensuring two decimal places.
@@ -41,19 +41,102 @@ const formatCurrency = (value: number): string => {
 // Helper to parse price ranges like "1.0-1.5" into an average number
 const parsePrice = (priceRange: string): number => {
   if (!priceRange || typeof priceRange !== 'string') return 0;
-  const parts = priceRange.split(/–|-/).map(parseFloat);
+  const parts = priceRange.replace(',', '.').split(/–|-/).map(parseFloat);
   if (parts.length === 1) return parts[0] || 0;
   const avg = (parts[0] + parts[1]) / 2;
   return isNaN(avg) ? 0 : avg;
 };
 
 const RARE_AMBER_TYPES = [
+  'Gold Yellow (Clean)',
+  'Orange Amber (Clean)',
   'Pigeon Blood Red to Cherry Red',
   'Wood Pattern Amber',
   'Black Amber (Brownish Visible)',
   'Black Amber (Solid Dark)',
   'Mila Amber (Bee Wax-like, Partial)',
   'Mila Amber (Pure Milky / Bee Wax Type)',
+  // French translations
+  'Jaune Or (Pur)',
+  'Ambre Orange (Pur)',
+  'Rouge Sang de Pigeon à Rouge Cerise',
+  'Ambre à Motif de Bois',
+  'Ambre Noir (Reflets Brunâtres)',
+  'Ambre Noir (Uni Opaque)',
+  'Ambre Mila (Type Cire d\'Abeille, Partiel)',
+  'Ambre Mila (Laiteux Pur / Type Cire)',
+  // Dutch translations
+  'Goudgeel (Helder)',
+  'Oranje Amber (Helder)',
+  'Duivenbloedrood tot Kersrood',
+  'Amber met Houtpatroon',
+  'Zwarte Amber (Zichtbaar Bruinachtig)',
+  'Zwarte Amber (Effen Donker)',
+  'Mila Amber (Bijenwas-achtig, Deels)',
+  'Mila Amber (Puur Melkachtig / Bijenwas)',
+  // Spanish translations
+  'Dorado (Limpio)',
+  'Ámbar Naranja (Limpio)',
+  'Rojo Sangre de Paloma / Rojo Cereza',
+  'Ámbar con Vetas de Madera',
+  'Ámbar Negro (Marrón Visible)',
+  'Ámbar Negro (Sólido Oscuro)',
+  'Ámbar Mila (Tipo Cera de Abeja, Parcial)',
+  'Ámbar Mila (Puro / Tipo Cera de Abeja)',
+  // Arabic translations
+  'أصفر ذهبي (نقي)',
+  'برتقالي (نقي)',
+  'أحمر دم الحمام إلى أحمر كرزي',
+  'نقش خشبي',
+  'أسود (بني واضح)',
+  'أسود صلب',
+  'ميلا (شبه شمع النحل)',
+  'ميلا (حليبي نقي / شمع النحل)',
+  // Hindi translations
+  'गोल्ड येलो (स्वच्छ)',
+  'ऑरेंज एंबर (स्वच्छ)',
+  'पिजन ब्लड रेड / चेरी रेड',
+  'वुड पैटर्न एंबर',
+  'ब्लैक एंबर (भूरा झलक)',
+  'ब्लैक एंबर (सॉलिड डार्क)',
+  'मीला एंबर (बी वैक्स समान, आंशिक)',
+  'मीला एंबर (शुद्ध दूधिया / बी वैक्स टाइप)',
+  // Thai translations
+  'สีเหลืองทอง (สะอาด)',
+  'อำพันส้ม (สะอาด)',
+  'อำพันแดงเลือดนก',
+  'อำพันลายไม้',
+  'อำพันดำ (มีลายน้ำตาลปนเล็กน้อย)',
+  'อำพันดำสนิท',
+  'อำพันมิล่า (เหลืองจักรพรรดิสีเข้ม)',
+  'อำพันมิล่า (เหลืองจักรพรรดิสีทอง)',
+  // Chinese translations
+  '黄金珀 (净水)',
+  '橙珀 (净水)',
+  '血珀 (鸽血红/樱桃红)',
+  '根珀 (木纹)',
+  '翳珀 (可见棕色)',
+  '纯黑珀 (Solid Dark)',
+  '蜜蜡 (部分蜡质)',
+  '纯蜜蜡 / 白蜜蜡',
+  // Japanese translations
+  'ゴールドイエロー (クリーン)',
+  'オレンジアンバー (クリーン)',
+  'ピジョンブラッドレッド～チェリーレッド',
+  '木目調アンバー',
+  'ブラックアンバー (茶色みあり)',
+  'ブラックアンバー (ソリッドダーク)',
+  'ミラアンバー (蜜蝋タイプ・一部)',
+  'ミラアンバー (純白蜜蝋タイプ)',
+  // Vietnamese translations
+  'Vàng Kim (Hàng trong)',
+  'Hổ Phách Cam (Hàng trong)',
+  'Đỏ Huyết Bồ Câu đến Đỏ Anh Đào',
+  'Hổ Phách Vân Gỗ (Rễ Cây)',
+  'Hổ Phách Đen (Ánh Nâu)',
+  'Hổ Phách Đen (Đen Đặc)',
+  'Hổ Phách Sáp Ong (Mila, Đục/Mây)',
+  'Hổ Phách Sáp Ong (Mila, Sáp đặc/Trắng Sữa)',
 ];
 
 
@@ -154,6 +237,12 @@ const PriceEstimator: React.FC<PriceEstimatorProps> = ({ content, language }) =>
         pdfFont = await loadFont('NotoSansDevanagari', 'https://raw.githack.com/google/fonts/main/ofl/notosansdevanagari/static/NotoSansDevanagari-Regular.ttf');
       } else if (language === 'th') {
         pdfFont = await loadFont('Sarabun', 'https://raw.githack.com/google/fonts/main/ofl/sarabun/Sarabun-Regular.ttf');
+      } else if (language === 'zh') {
+        pdfFont = await loadFont('SourceHanSansSC', 'https://rawcdn.githack.com/Mr-He-style/fonts/main/ttf/SourceHanSansSC-Regular.ttf');
+      } else if (language === 'ja') {
+        pdfFont = await loadFont('NotoSansJP', 'https://rawcdn.githack.com/google/fonts/main/ofl/notosansjp/NotoSansJP-Regular.ttf');
+      } else if (language === 'vi') {
+        pdfFont = await loadFont('BeVietnamPro', 'https://raw.githack.com/google/fonts/main/ofl/bevietnampro/BeVietnamPro-Regular.ttf');
       }
       
       doc.setFont(pdfFont);
@@ -530,9 +619,21 @@ const PriceEstimator: React.FC<PriceEstimatorProps> = ({ content, language }) =>
           );
       }
 
-      const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+      // A more robust check for mobile/tablet devices, including modern iPads
+      const isMobileTablet = () => {
+        const userAgent = navigator.userAgent || navigator.vendor || (window as any).opera;
+        // Basic regex check for common mobile patterns
+        if (/android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(userAgent)) {
+          return true;
+        }
+        // Check for iPad on iOS 13+ which may pretend to be a Mac
+        if (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1) {
+          return true;
+        }
+        return false;
+      };
 
-      if (isMobile) {
+      if (isMobileTablet()) {
         // For mobile/tablet devices, open the PDF in a new tab.
         // The browser's built-in PDF viewer will handle saving/sharing.
         const pdfDataUri = doc.output('datauristring');

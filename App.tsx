@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import PriceTable from './components/PriceTable';
 import NotesSection from './components/NotesSection';
 import RarityAlert from './components/RarityAlert';
@@ -10,9 +10,13 @@ import { translations } from './translations';
 type TabKey = 'overview' | 'pricing' | 'notes' | 'gallery';
 
 const App: React.FC = () => {
-  const [language, setLanguage] = useState<'en' | 'es' | 'ar' | 'hi' | 'th'>('en');
+  const [language, setLanguage] = useState<'en' | 'es' | 'ar' | 'hi' | 'th' | 'zh' | 'nl' | 'ja' | 'fr' | 'vi'>('en');
   const [activeTab, setActiveTab] = useState<TabKey>('overview');
   const content = translations[language];
+  const languageContainerRef = useRef<HTMLDivElement>(null);
+  const [showLeftArrow, setShowLeftArrow] = useState(false);
+  const [showRightArrow, setShowRightArrow] = useState(false);
+
 
   const sectionRefs = {
     overview: useRef<HTMLElement>(null),
@@ -56,6 +60,32 @@ const App: React.FC = () => {
     'https://raw.githubusercontent.com/devoncasa/VickyLuxGems-Assets/main/roughamber/rough-burmese-amber-24.webp'
   ];
 
+  const checkScrollArrows = useCallback(() => {
+    const el = languageContainerRef.current;
+    if (el) {
+        // A small tolerance is added to handle potential sub-pixel rendering issues.
+        const tolerance = 2;
+        const isScrollable = el.scrollWidth > el.clientWidth + tolerance;
+        setShowLeftArrow(isScrollable && el.scrollLeft > tolerance);
+        setShowRightArrow(isScrollable && el.scrollLeft < (el.scrollWidth - el.clientWidth - tolerance));
+    }
+  }, []);
+
+  useEffect(() => {
+    const el = languageContainerRef.current;
+    if (el) {
+        checkScrollArrows();
+        el.addEventListener('scroll', checkScrollArrows, { passive: true });
+        const resizeObserver = new ResizeObserver(checkScrollArrows);
+        resizeObserver.observe(el);
+
+        return () => {
+            el.removeEventListener('scroll', checkScrollArrows);
+            resizeObserver.unobserve(el);
+        };
+    }
+  }, [checkScrollArrows]);
+
   useEffect(() => {
     document.documentElement.lang = language;
     document.documentElement.dir = language === 'ar' ? 'rtl' : 'ltr';
@@ -98,7 +128,7 @@ const App: React.FC = () => {
         ],
         "contactPoint": {
           "@type": "ContactPoint", "telephone": "+66-81-851-9922", "contactType": "Customer Service",
-          "areaServed": ["TH", "IN", "AE", "ES", "US"], "availableLanguage": ["English", "Spanish", "Arabic", "Hindi", "Thai"]
+          "areaServed": ["TH", "IN", "AE", "ES", "US", "CN", "NL", "JP", "FR", "VN"], "availableLanguage": ["English", "Spanish", "Arabic", "Hindi", "Thai", "Chinese", "Dutch", "Japanese", "French", "Vietnamese"]
         }
     };
     
@@ -143,12 +173,23 @@ const App: React.FC = () => {
   const handleTabClick = (tabKey: TabKey) => {
     sectionRefs[tabKey].current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   };
+  
+  const handleLanguageScroll = (direction: 'left' | 'right') => {
+    const el = languageContainerRef.current;
+    if (el) {
+        const scrollAmount = el.clientWidth * 0.8; // Scroll by 80% of the visible width
+        el.scrollBy({
+            left: direction === 'left' ? -scrollAmount : scrollAmount,
+            behavior: 'smooth',
+        });
+    }
+  };
 
-  const LanguageButton: React.FC<{ lang: 'en' | 'es' | 'ar' | 'hi' | 'th'; label: string; }> = ({ lang, label }) => (
+  const LanguageButton: React.FC<{ lang: 'en' | 'es' | 'ar' | 'hi' | 'th' | 'zh' | 'nl' | 'ja' | 'fr' | 'vi'; label: string; }> = ({ lang, label }) => (
     <button
       onClick={() => setLanguage(lang)}
       aria-pressed={language === lang}
-      className={`px-4 py-2 text-sm font-semibold rounded-md transition-colors duration-200 ${
+      className={`px-4 py-2 text-sm font-semibold rounded-md transition-colors duration-200 flex-shrink-0 ${
         language === lang ? 'bg-amber-800 text-white shadow-md' : 'bg-white text-amber-800 hover:bg-amber-100/60 border border-amber-200'
       }`}
     >
@@ -205,13 +246,42 @@ const App: React.FC = () => {
       />
       <main className="container mx-auto px-4 py-8 md:py-12">
         <div className="flex justify-end mb-6 print:hidden" role="toolbar" aria-label="Language selection">
-          <div className="flex space-x-2 rtl:space-x-reverse p-1 bg-white/60 rounded-lg border border-amber-200/50">
-            <LanguageButton lang="en" label="English" />
-            <LanguageButton lang="th" label="ไทย" />
-            <LanguageButton lang="es" label="Español" />
-            <LanguageButton lang="ar" label="العربية" />
-            <LanguageButton lang="hi" label="हिन्दी" />
-          </div>
+            <div className="relative w-full md:w-auto flex items-center">
+              {showLeftArrow && (
+                <button
+                  onClick={() => handleLanguageScroll('left')}
+                  className="absolute left-0 top-1/2 -translate-y-1/2 z-10 p-1 bg-white/70 rounded-full shadow-md hover:bg-amber-100/80 transition-colors md:hidden"
+                  aria-label="Scroll left"
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-amber-800" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                  </svg>
+                </button>
+              )}
+              <div ref={languageContainerRef} className="flex items-center space-x-2 rtl:space-x-reverse p-1 bg-white/60 rounded-lg border border-amber-200/50 md:flex-wrap w-full overflow-x-auto scrollbar-hide touch-pan-x">
+                <LanguageButton lang="en" label="English" />
+                <LanguageButton lang="th" label="ไทย" />
+                <LanguageButton lang="ar" label="العربية" />
+                <LanguageButton lang="zh" label="中文" />
+                <LanguageButton lang="ja" label="日本語" />
+                <LanguageButton lang="nl" label="Nederlands" />
+                <LanguageButton lang="fr" label="Français" />
+                <LanguageButton lang="es" label="Español" />
+                <LanguageButton lang="hi" label="हिन्दी" />
+                <LanguageButton lang="vi" label="Tiếng Việt" />
+              </div>
+              {showRightArrow && (
+                <button
+                  onClick={() => handleLanguageScroll('right')}
+                  className="absolute right-0 top-1/2 -translate-y-1/2 z-10 p-1 bg-white/70 rounded-full shadow-md hover:bg-amber-100/80 transition-colors md:hidden"
+                  aria-label="Scroll right"
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-amber-800" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                  </svg>
+                </button>
+              )}
+            </div>
         </div>
       
         <header className="text-center mb-10 print:hidden">

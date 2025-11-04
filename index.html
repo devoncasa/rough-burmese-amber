@@ -55,6 +55,18 @@
           background-color: rgba(255, 255, 255, 0.20);
         }
       }
+      /* Utility to hide the scrollbar */
+      .scrollbar-hide::-webkit-scrollbar {
+        display: none;
+      }
+      .scrollbar-hide {
+        -ms-overflow-style: none;  /* IE and Edge */
+        scrollbar-width: none;  /* Firefox */
+      }
+      /* Utility for better touch scrolling */
+      .touch-pan-x {
+        touch-action: pan-x;
+      }
     </style>
     <script type="importmap">
 {
