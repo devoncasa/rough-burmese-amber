@@ -530,7 +530,18 @@ const PriceEstimator: React.FC<PriceEstimatorProps> = ({ content, language }) =>
           );
       }
 
-      doc.save(fileName);
+      const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+
+      if (isMobile) {
+        // For mobile/tablet devices, open the PDF in a new tab.
+        // The browser's built-in PDF viewer will handle saving/sharing.
+        const pdfDataUri = doc.output('datauristring');
+        window.open(pdfDataUri, '_blank');
+      } else {
+        // For desktop devices, trigger a direct download.
+        doc.save(fileName);
+      }
+
     } catch (error) {
       console.error("Failed to generate PDF:", error);
       alert("Sorry, there was an error creating the PDF. Please ensure you have a stable internet connection and try again.");
